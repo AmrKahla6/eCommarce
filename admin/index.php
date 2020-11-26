@@ -23,19 +23,32 @@
         /**
          * Check if user exist in db
          */
-        $stmt  = $con->prepare("SELECT Username, Password FROM users where Username = ? AND Password = ? AND GroupID = 1");
+        $stmt  = $con->prepare("SELECT
+                                    UserID , Username , Password
+                                FROM
+                                    users
+                                where
+                                    Username = ?
+                                AND
+                                    Password = ?
+                                AND
+                                   GroupID = 1
+                                LIMIT 1");
         $stmt->execute(array($username , $hashedPass));
         /**
          * if count > 0 this mean the db contain record about this username
          */
         $count = $stmt->rowCount(); // exist or not
+        $row   = $stmt->fetch();
         if($count > 0)
         {
             /**
              * Register username
+             * Register user id
              * then redirect to dashboard
              */
             $_SESSION['Username'] = $username;
+            $_SESSION['ID']       = $row['UserID'];
             header('Location: dashboard.php');
             exit();
         }
