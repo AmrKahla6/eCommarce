@@ -10,5 +10,5 @@
     <body>
 
         <div class="header">
-            This is header
+            <!-- This is header -->
         </div>
