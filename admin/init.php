@@ -2,25 +2,17 @@
 
 include 'connect.php';
 
-  /**
-   * Route for templete directory
-   */
-    $tpl = 'includes/templetes/';
+    $tpl      = 'includes/templetes/';              //Route for templete directory
+    $lang     = 'includes/languages/';              // lang directory
+    $func     = 'includes/functions/';              // function directory
+    $css      = 'layout/css/';                      //Route for css directory
+    $js       = 'layout/js/';                       //Route for js directory
 
-   /**
-   * Route for css directory
-   */
-       $css = 'layout/css/';
 
-    /**
-   * Route for js directory
-   */
-     $js = 'layout/js/';
-
-     /**
-      * Include the important files
-    */
-    $lang = 'includes/languages/'; // lang directory
+/**
+ * Include imprortant files
+ */
+    include $func . 'function.php';
     include $lang . 'en.php';
     include $tpl . "header.php";
     /**

@@ -23,7 +23,7 @@
           <ul class="dropdown-menu">
             <li><a href="#"><?php echo lang('EDITPROFILE') ?></a></li>
             <li><a href="#"><?php echo lang('SETTING') ?></a></li>
-            <li><a href="#"><?php echo lang('LOGOUT') ?></a></li>
+            <li><a href="logout.php"><?php echo lang('LOGOUT') ?></a></li>
           </ul>
         </li>
       </ul>
