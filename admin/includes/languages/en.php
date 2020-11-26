@@ -6,13 +6,18 @@
 
     static $lang = array(
        /**
-        * Dashboaed Page
+        * Navbar links
         */
         'HOME_ADMIN'  => 'Home',
-        'CATEGORIES'  => 'Categories',
         'EDITPROFILE' => 'Edit profile',
-        'SETTING'     => 'Setting',
+        'SETTING'     => 'Settings',
         'LOGOUT'      => 'Logout',
+        'CATEGORIES'  => 'Categories',
+        'ITEMS'       => 'Item',
+        'MEMBERS'     => 'Members',
+        'STATISTICS'  => 'Statistics',
+        'LOGS'        => 'Logo',
+
     );
     return $lang[$phrase];
    }
