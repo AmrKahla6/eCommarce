@@ -1,12 +1,12 @@
 <?php
     session_start();
+    $noNavbar = "";
     if(isset($_SESSION['username']))
     {
         header('Location: dashboard.php'); // redirect to dashboard
     }
     include 'init.php';
-    include 'includes/languages/en.php';
-    include $tpl . "header.php";
+
 
     /**
      * Check if user comming from http request

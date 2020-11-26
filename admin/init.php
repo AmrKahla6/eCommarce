@@ -17,3 +17,17 @@ include 'connect.php';
    */
      $js = 'layout/js/';
 
+     /**
+      * Include the important files
+    */
+    $lang = 'includes/languages/'; // lang directory
+    include $lang . 'en.php';
+    include $tpl . "header.php";
+    /**
+     * include navbar in all pages expect the one noNavbar variable
+     */
+    if(!isset($noNavbar))
+    {
+        include $tpl . "navbar.php";
+    }
+

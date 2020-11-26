@@ -5,8 +5,14 @@
    {
 
     static $lang = array(
-        'MESSAGE' => 'Welcome',
-        'ADMIN'   => 'Administrator',
+       /**
+        * Dashboaed Page
+        */
+        'HOME_ADMIN'  => 'Home',
+        'CATEGORIES'  => 'Categories',
+        'EDITPROFILE' => 'Edit profile',
+        'SETTING'     => 'Setting',
+        'LOGOUT'      => 'Logout',
     );
     return $lang[$phrase];
    }
