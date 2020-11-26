@@ -55,5 +55,10 @@
     padding: 10px 15px;
 
 }
+.dropdown-menu>li>a:focus,
+ .dropdown-menu>li>a:hover {
+    color:#FFF;
+    background-color:#9b59b6;
+}
 
 /* End bootstrap edit*/
