@@ -38,8 +38,8 @@
         /**
          * if count > 0 this mean the db contain record about this username
          */
-        $count = $stmt->rowCount(); // exist or not
         $row   = $stmt->fetch();
+        $count = $stmt->rowCount(); // exist or not
         if($count > 0)
         {
             /**
