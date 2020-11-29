@@ -36,7 +36,8 @@ if(isset($_SESSION['Username']))
         if($count > 0){// Edit Page?>
             <h1 class="text-center">Edit Members</h1>
             <div class="container">
-                <form class="form-horizontal" action="" method="post">
+                <form class="form-horizontal" action="?do=Update" method="POST">
+                <input type="hidden" name="userid" value="<?php echo $userid ?>">
                     <!-- Start UserName Faild -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Username</label>
@@ -89,6 +90,29 @@ if(isset($_SESSION['Username']))
         {
             echo 'there is no such ID';
         }
+   } elseif($do == 'Update')
+   {// Update Page
+     echo '<h1 class="text-center">Update Members</h1>';
+     if($_SERVER['REQUEST_METHOD'] == 'POST')
+     {
+         // Get varabiles from form
+         $id    = $_POST['userid'];
+         $user  = $_POST['username'];
+         $email = $_POST['email'];
+         $name  = $_POST['full'];
+
+         // Update db with info
+
+         $stmt = $con->prepare("UPDATE users SET Username = ? , Email = ? , FullName = ?  WHERE UserID = ?");
+         $stmt->execute(array($user , $email , $name , $id));
+
+         // Ecoh success message
+         echo $stmt->rowCount() . ' Record Updated';
+     }
+     else
+     {
+         echo 'You can not browes this page directly';
+     }
    }
    include $tpl . "footer.php";
 }
