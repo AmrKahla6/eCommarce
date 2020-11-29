@@ -17,7 +17,132 @@ if(isset($_SESSION['Username']))
    if($do == 'Manage')
    {
        // Manage Page
-   }elseif($do == 'Edit')
+       echo 'Welcome to manage member page'.'<br>';
+       echo '<a href="?do=Add">Add New Member</a>';
+   }
+   // Add Members Page
+   elseif($do == 'Add')
+   { ?>
+       <h1 class="text-center">Add New Members</h1>
+       <div class="container">
+           <form class="form-horizontal" action="?do=Store" method="POST">
+               <!-- Start UserName Faild -->
+               <div class="form-group form-group-lg">
+                   <label class="col-sm-2 control-label">Username</label>
+                   <div class="col-sm-10 col-md-6">
+                       <input type="text" name="username" class="form-control" placeholder="ADD USERNAME" autocomplete="off" required>
+                   </div>
+               </div>
+               <!-- End UserName Faild -->
+
+               <!-- Start Password Faild -->
+               <div class="form-group form-group-lg">
+                   <label class="col-sm-2 control-label">Password</label>
+                   <div class="col-sm-10 col-md-6">
+                       <input type="password" name="password" class="password form-control" autocomplete="new-password" placeholder="ADD PASSWORD" required>
+                       <i class="show-pass fa fa-eye fa-2x"></i>
+                   </div>
+               </div>
+               <!-- End Password Faild -->
+
+               <!-- Start FullName Faild -->
+               <div class="form-group form-group-lg">
+                       <label class="col-sm-2 control-label">Full Name</label>
+                       <div class="col-sm-10 col-md-6">
+                           <input type="text" name="full" class="form-control" placeholder="ADD FULL NAME" autocomplete="off" required>
+                       </div>
+                   </div>
+                   <!-- End FullName Faild -->
+
+                   <!-- Start Email Faild -->
+                   <div class="form-group form-group-lg">
+                       <label class="col-sm-2 control-label">Email</label>
+                       <div class="col-sm-10 col-md-6">
+                           <input type="email" name="email" class="form-control" placeholder="ADD EMAIL" autocomplete="off" required>
+                       </div>
+                   </div>
+               <!-- End Email Faild -->
+
+               <!-- Start submit Faild -->
+                   <div class="form-group form-group-lg">
+                       <div class="col-sm-offset-2 col-sm-10">
+                           <input type="submit" value="ADD" class="btn btn-primary btn-lg">
+                       </div>
+                   </div>
+               <!-- End submit Faild -->
+           </form>
+       </div>
+       <?php
+   }
+
+    elseif($do == 'Store')
+    {
+        // Stror member to db
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            echo '<h1 class="text-center">Store Members</h1>';
+            echo "<div class='container'>";
+            // Get varabiles from form
+            $user     = $_POST['username'];
+            $pass     = $_POST['password'];
+            $email    = $_POST['email'];
+            $name     = $_POST['full'];
+            $hashpass = sha1($pass);
+             //Validate the form
+             $formerrors = array();
+           //   if(strlen($user <div 4))
+           //   {
+           //     $formerrors[] = 'Username can not be less than 4 charachter';
+           //   }
+
+             if(empty($user))
+             {
+                $formerrors[] = 'Username can not be <strong> null </strong>';
+             }
+             if(empty($pass))
+             {
+                $formerrors[] = 'Password can not be <strong> null </strong>';
+             }
+             if(empty($email))
+             {
+                $formerrors[] = 'Email can not be <strong> null </strong>';
+             }
+             if(empty($name))
+             {
+                $formerrors[] = 'Full name can not be <strong> null </strong>';
+             }
+
+             // Loop into Errors and echo it
+             foreach($formerrors as $error)
+             {
+                 echo '<div class="alert alert-danger">' .$error . '</div>';
+             }
+             // Chech if no errors
+             if(empty($formerrors))
+             {
+                 // Store members in db
+                $stmt = $con->prepare("INSERT INTO
+                                            users(Username, Password, Email, FullName )
+                                            VALUES(:zuser , :zpass , :zemail , :zname)");
+                $stmt->execute(array(
+                    'zuser'  => $user,
+                    'zpass'  => $hashpass,
+                    'zemail' => $email,
+                    'zname'  => $name,
+                ));
+
+                 // Ecoh success message
+                 echo "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Store </div>';
+             }
+        }
+        else
+        {
+            echo 'You can not browes this page directly';
+        }
+        echo "</div>";
+    }
+
+   elseif($do == 'Edit')
    {
         // Validate chech if Get request userid & is numeric
         $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0 ;
