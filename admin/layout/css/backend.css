@@ -3,6 +3,13 @@
      background-color: #f4f4f4;
      font-size: 16px;
  }
+ .asterisk {
+     font-size: 30px;
+     position: absolute;
+     right: 30px;
+     top: 6px;
+     color: #D20707;
+ }
 /* End main Rulez */
 
 /* Start Login form*/
@@ -59,6 +66,9 @@
  .dropdown-menu>li>a:hover {
     color:#FFF;
     background-color:#9b59b6;
+}
+.form-control {
+    position: relative;
 }
 
 /* End bootstrap edit*/
