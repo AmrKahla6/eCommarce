@@ -17,35 +17,58 @@
 
  /**
   * Home Redirect function [This function Accept Parameters]
-  * $errorMsg = Echo the error messgae
+  * $errorMsg = Echo the messgae [Error || success]
   * $seconds  = Secondes before redirect
+  * $url      = The link you want to redirect to
   */
 
-  function redirectHome($Msg , $seconds = 3)
+  function redirectHome($theMsg , $url = null , $seconds = 3)
   {
-      echo "<div class='alert alert-success'>$Msg</div>";
+      if($url === null)
+      {
+          $url  = 'index.php';
+          $link = 'Homepage' ;
+      }
+      else
+      {
+          if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] !== "")
+          {
+            $url  = $_SERVER['HTTP_REFERER'];
+            $link = 'Previous Page' ;
+          }
+          else
+          {
+              $url = 'index.php';
+              $link = 'Homepage' ;
+          }
+      }
+      echo $theMsg;
 
-      echo "<div class='alert alert-info'>You will redirect into homepage after $seconds seconds.</div>";
+      echo "<div class='alert alert-info'>You Will Be Redirect To $link after $seconds seconds.</div>";
 
-      header("refresh:$seconds; url = members.php");
+      header("refresh:$seconds; url = $url");
 
       exit();
   }
 
-   /**
-  * error Redirect function [This function Accept Parameters]
-  * $errorMsg = Echo the error messgae
-  * $seconds  = Secondes before redirect
+  /**
+   * Function ti check item in db [function accept parametars]
+   * $select = the item to select [Example : users , item]
+   * $from   = the table to select from [Example : users , item]
+   * $value  = the value of select
   */
 
-  function redirecterror($errorMsg , $seconds = 3)
+  function checkItem($select , $from , $value)
   {
-      echo "<div class='alert alert-danger'>$errorMsg</div>";
+      global $con ;
 
-      echo "<div class='alert alert-info'>You will redirect into homepage after $seconds seconds.</div>";
+      $statment = $con->prepare("SELECT $select FROM $from WHERE $select = ?");
+      $statment->execute(array($value));
 
-      header("refresh:$seconds; url = index.php");
-
-      exit();
+      $count = $statment->rowCount();
+      return $count;
   }
+
+
+
 

@@ -89,9 +89,20 @@ label {
     top: 6px;
     right: -30px;
 }
-
+.main-table {
+    -webkit-box-shadow : 0 3px 10px #CCC;
+    -moz-box-shadow : 0 3px 10px #CCC;
+    box-shadow : 0 3px 10px #CCC;
+}
+.main-table td {
+    background-color: #FFF;
+    vertical-align: middle !important;
+}
 .main-table tr:first-child td{
     background-color: #333;
     color: #FFF;
+}
+.main-table .btn {
+    padding: 3px 10px;
 }
 /* End Members Page*/
