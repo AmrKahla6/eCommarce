@@ -26,4 +26,10 @@
      },function(){
         passField.attr('type' , 'password');
      });
+
+     // Confirmation message in button
+     $('.confirm').click(function()
+     {
+         return confirm('Are you sure ?');
+     })
  });

@@ -46,7 +46,7 @@ if(isset($_SESSION['Username']))
                               echo '<td></td>';
                               echo "<td>
                                         <a href='members.php?do=Edit&userid=" . $row['UserID'] . "' class='btn btn-success'>Edit</a>
-                                        <a href='#' class='btn btn-danger'>Delete</a>
+                                        <a href='members.php?do=Delete&userid=" . $row['UserID'] . "' class='btn btn-danger confirm'>Delete</a>
                                    </td>";
                           echo '</tr>';
                       }
@@ -311,6 +311,35 @@ if(isset($_SESSION['Username']))
          echo 'You can not browes this page directly';
      }
      echo "</div>";
+   }elseif($do == 'Delete')
+   {// Delete members page
+        echo '<h1 class="text-center">Delete Members</h1>';
+        echo "<div class='container'>";
+            // Validate chech if Get request userid & is numeric
+            $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0 ;
+
+            // Select all data from db depend on this id
+            $stmt  = $con->prepare("SELECT * FROM users where UserID = ? LIMIT 1");
+
+            // Execute Query
+            $stmt->execute(array($userid));
+
+            //if count > 0 this mean the db contain record about this username
+            $count = $stmt->rowCount(); // exist or not
+            if($count > 0){
+                $stmt = $con->prepare("DELETE FROM users WHERE UserID = :zuser");
+
+                $stmt->bindParam(":zuser" , $userid);
+                $stmt->execute();
+
+                // Ecoh success message
+                echo "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Deleted </div>';
+            }
+            else
+            {
+                echo "This id is not exsist";
+            }
+         echo "</div>";
    }
    include $tpl . "footer.php";
 }
