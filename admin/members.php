@@ -16,9 +16,47 @@ if(isset($_SESSION['Username']))
    // Start manage page
    if($do == 'Manage')
    {
-       // Manage Page
-       echo 'Welcome to manage member page'.'<br>';
-       echo '<a href="?do=Add">Add New Member</a>';
+       // Select all members except Admins
+       $stmt = $con->prepare("SELECT * FROM users where GroupID != 1");
+       $stmt->execute();
+
+       // Assign to a variable
+       $rows = $stmt->fetchAll()
+       ?>
+        <!-- Manage Page -->
+    <h1 class="text-center">Manage Members</h1>
+       <div class="container">
+        <div class="table-responsive">
+             <table class="main-table text-center table table-bordered">
+                 <tr>
+                     <td>#ID</td>
+                     <td>Username</td>
+                     <td>Fullname</td>
+                     <td>Email</td>
+                     <td>Registerd Date</td>
+                     <td>Control</td>
+                 </tr>
+                <?php foreach($rows as $row)
+                      {
+                          echo '<tr>';
+                              echo '<td>'.$row['UserID'] . '</td>';
+                              echo '<td>'.$row['Username']. '</td>';
+                              echo '<td>'.$row['FullName']. '</td>';
+                              echo '<td>'.$row['Email']. '</td>';
+                              echo '<td></td>';
+                              echo "<td>
+                                        <a href='members.php?do=Edit&userid=" . $row['UserID'] . "' class='btn btn-success'>Edit</a>
+                                        <a href='#' class='btn btn-danger'>Delete</a>
+                                   </td>";
+                          echo '</tr>';
+                      }
+                 ?>
+             </table>
+        </div>
+            <a href="?do=Add" class="btn btn-primary"> <i class="fa fa-plus"></i> Add New Member</a>
+       </div>
+
+   <?php
    }
    // Add Members Page
    elseif($do == 'Add')
