@@ -170,12 +170,13 @@ if(isset($_SESSION['Username']))
                 ));
 
                  // Ecoh success message
-                 echo "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Store </div>';
+                //  echo "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Store </div>';
+                 redirectHome($stmt->rowCount() . ' Record Store' , 5);
              }
         }
         else
         {
-            echo 'You can not browes this page directly';
+            redirecterror('You can not browes this page directly' , 5);
         }
         echo "</div>";
     }
@@ -303,12 +304,13 @@ if(isset($_SESSION['Username']))
               $stmt->execute(array($user , $email , $name , $pass , $id));
 
               // Ecoh success message
-              echo "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Updated </div>';
+            //   echo "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Updated </div>';
+              redirectHome($stmt->rowCount() . ' Record Updated' , 5);
           }
      }
      else
      {
-         echo 'You can not browes this page directly';
+         redirecterror('You can not browes this page directly' , 5);
      }
      echo "</div>";
    }elseif($do == 'Delete')
@@ -333,11 +335,12 @@ if(isset($_SESSION['Username']))
                 $stmt->execute();
 
                 // Ecoh success message
-                echo "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Deleted </div>';
+                // echo "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Deleted </div>';
+                redirectHome(  $stmt->rowCount() . ' Record Deleted ' , 5 );
             }
             else
             {
-                echo "This id is not exsist";
+                redirecterror( "This id is not exsist" , 5 );
             }
          echo "</div>";
    }
