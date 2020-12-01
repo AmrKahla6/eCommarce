@@ -112,8 +112,60 @@ if(isset($_SESSION['Username']))
     }
     elseif($do == 'Store')
     {
+        // Store Category to db
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            echo '<h1 class="text-center">Store Category</h1>';
+            echo "<div class='container'>";
+            // Get varabiles from form
+            $name     = $_POST['name'];
+            $desc     = $_POST['des'];
+            $order    = $_POST['ordering'];
+            $visible  = $_POST['visibilty'];
+            $comment  = $_POST['commenting'];
+            $ads      = $_POST['ads'];
 
+
+            //Check if Category exsist in db
+            $check = checkItem("Name" , "categories" , $name);
+
+            if($check == 1)
+            {
+                $theMsg = '<div class="alert alert-danger"> Sorry this Category is exsist </div>';
+                redirectHome($theMsg , 'back');
+            }
+            else
+            {
+
+                    // Store Category in db
+                    $stmt = $con->prepare("INSERT INTO
+                                                categories(Name, Des, Ordering, Visibilty , Allow_Comment , Allow_Ads )
+                                                VALUES(:zname , :zdes , :zorder , :zvisible , :zcomment , :zads)");
+                    $stmt->execute(array(
+                        'zname'     => $name,
+                        'zdes'      => $desc,
+                        'zorder'    => $order,
+                        'zvisible'  => $visible,
+                        'zcomment'  => $comment,
+                        'zads'      => $ads,
+                    ));
+
+                    // Ecoh success message
+                    $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Store </div>';
+                    redirectHome($theMsg , 'back');
+                }
+
+        }
+        else
+        {
+            echo '<div class="container">';
+            $theMsg = '<div class="alert alert-danger">  Sorry You Can Not Browes This Page Directly </div>';
+            redirectHome($theMsg , 'back');
+            echo '</div>';
+        }
+        echo "</div>";
     }
+
     elseif($do == 'Edit')
     {
 

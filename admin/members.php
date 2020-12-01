@@ -126,7 +126,7 @@ if(isset($_SESSION['Username']))
 
     elseif($do == 'Store')
     {
-        // Stror member to db
+        // Store member to db
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             echo '<h1 class="text-center">Store Members</h1>';
