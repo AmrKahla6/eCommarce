@@ -7,6 +7,9 @@
        include 'init.php';
     /*Start Dashboard page*/
 
+    $latestUser = 6 ; // Number of latest users
+
+    $theLatestUsers = getLatest('*' , 'users' , 'UserID' , $latestUser); // Latest users array
     ?>
     <div class="container home-stats text-center">
          <h1>Dashboard</h1>
@@ -49,10 +52,30 @@
               <div class="col-sm-6">
                    <div class="panel panel-default">
                         <div class="panel-heading">
-                           <i class="fa fa-users"></i>Latest Registerd Users
+                           <i class="fa fa-users"></i>Latest <?php echo $latestUser ?> Registerd Users
                         </div>
                         <div class="panel-body">
-                             test
+                            <ul class="list-unstyled latest-users">
+                                <?php
+                                    foreach($theLatestUsers as $user)
+                                    {
+                                        echo '<li>' . $user['Username'] .
+                                                '<a href="members.php?do=Edit&userid='.$user['UserID'].'">
+                                                <span class="btn btn-success pull-right">
+                                                 <i class="fa fa-edit"></i> Edit </span> </a>
+
+                                                 <a href="members.php?do=Delete&userid='.$user['UserID'].'">
+                                                <span class="btn btn-danger pull-right">
+                                                 <i class="fa fa-edit"></i> Delete </span> </a>';
+
+                                                if($user['RegStatus'] == 0)
+                                                    {
+                                                        echo "<a href='members.php?do=Activate&userid=" . $user['UserID'] . "' class='btn btn-info pull-right activate'> <i class='fa fa-close'></i>  Activate </a>";
+                                                    }
+                                               '</li>';
+                                    }
+                                ?>
+                            </ul>
                         </div>
                    </div>
               </div>

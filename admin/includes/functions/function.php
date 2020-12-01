@@ -86,5 +86,28 @@
  }
 
 
+ /**
+  * Get Latest Record Function
+  * Function To Get latest Items From DB [Users , Items , Comments]
+  * $select = Field to select
+  * $table  = the table to choose from
+  * $order  = The DESC ordering
+  * $limit  = Number of recordes to get
+ */
+
+ function getLatest($select , $table , $order ,  $limit = 5)
+ {
+     global $con;
+
+     $getStmt = $con->prepare("SELECT $select FROM $table ORDER BY $order DESC LIMIT $limit ");
+
+     $getStmt->execute();
+
+     $rows   = $getStmt->fetchAll();
+
+     return $rows;
+ }
+
+
 
 
