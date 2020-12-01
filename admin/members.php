@@ -3,7 +3,7 @@
  * Manage member page
  * You can Add | Edit | Delete members from here
  */
-
+ob_start();
 session_start();
 
 if(isset($_SESSION['Username']))
@@ -404,3 +404,5 @@ else
     header('Location: index.php');
     exit();
 }
+  ob_end_flush();
+?>
