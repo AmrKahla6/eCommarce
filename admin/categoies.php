@@ -48,7 +48,7 @@ if(isset($_SESSION['Username']))
                                echo "<div class='cat'>";
                                     echo "<div class='hidden-buttons'>";
                                           echo "<a href='?do=Edit&catid=". $cat['ID'] ."' class='btn btn-xs btn-primary'> <i class='fa fa-edit'> </i> Edit </a>";
-                                          echo "<a href='#' class='btn btn-xs btn-danger'> <i class='fa fa-close'> </i> Delete </a>";
+                                          echo "<a href='?do=Delete&catid=". $cat['ID'] ."' class='confirm btn btn-xs btn-danger'> <i class='fa fa-close'> </i> Delete </a>";
                                     echo "</div>";
 
                                     echo "<h3>".$cat['Name'] . "</h3>";
@@ -66,12 +66,13 @@ if(isset($_SESSION['Username']))
                         ?>
                    </div>
              </div>
+             <a class="btn btn-primary add-category" href="?do=Add"><i class="fa fa-plus"></i>Add New Category</a>
         </div>
        <?php
     }
     elseif($do == 'Add')
     { ?>
-        <h1 class="text-center">Add New Category</h1>
+        <h1 class="text-center"> Add New Category</h1>
         <div class="container">
             <form class="form-horizontal" action="?do=Store" method="POST">
                 <!-- Start Name Faild -->
@@ -379,9 +380,32 @@ if(isset($_SESSION['Username']))
         echo "</div>";
       }
     elseif($do == 'Delete')
-    {
+    {// Delete Category page
+        echo '<h1 class="text-center"> Delete Category </h1>';
+        echo "<div class='container'>";
+            // Validate chech if Get request catid & is numeric
+            $catid = isset($_GET['catid']) && is_numeric($_GET['catid']) ? intval($_GET['catid']) : 0 ;
 
-    }
+            // Select all data from db depend on this id
+            $check = checkItem('ID' , 'categories' , $catid);
+
+            if($check > 0){
+                $stmt = $con->prepare("DELETE FROM categories WHERE ID = :zid");
+
+                $stmt->bindParam(":zid" , $catid);
+                $stmt->execute();
+
+                // Ecoh success message
+                $theMsg =  "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Deleted </div>';
+                redirectHome( $theMsg , 'back');
+            }
+            else
+            {
+                $theMsg =  "<div class='alert alert-danger'> This ID Is Not Exsist </div>";
+                redirectHome($theMsg);
+            }
+         echo "</div>";
+   }
     include $tpl . "footer.php";
 }
 else
