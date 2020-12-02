@@ -14,7 +14,60 @@ if(isset($_SESSION['Username']))
 
     if($do == 'Manage')
     {
-       echo 'welcome';
+       $sort = "ASC";
+
+       $sort_array = array('ASC' , 'DESC');
+
+       if(isset($_GET['sort']) && in_array($_GET['sort'] , $sort_array))
+       {
+           $sort = $_GET['sort'];
+       }
+
+       $stmt2 = $con->prepare("SELECT * FROM categories ORDER BY Ordering $sort");
+
+       $stmt2->execute();
+
+       $cats = $stmt2->fetchAll(); ?>
+
+        <h1 class="text-center">Manage Categories</h1>
+        <div class="container categories">
+             <div class="panel panel-default">
+                   <div class="panel-heading">
+                       Manage Categories
+                       <div class="ordering pull-right">
+                           Ordering :
+                           <a class=" <?php if($sort == 'ASC')  { echo 'active' ; } ?> "  href="?sort=ASC">Asc</a> |
+                           <a class=" <?php if($sort == 'DESC') { echo 'active' ; } ?> " href="?sort=DESC">Desc</a>
+                       </div>
+                   </div>
+
+                   <div class="panel-body">
+                        <?php
+                           foreach($cats as $cat)
+                           {
+                               echo "<div class='cat'>";
+                                    echo "<div class='hidden-buttons'>";
+                                          echo "<a href='#' class='btn btn-xs btn-primary'> <i class='fa fa-edit'> </i> Edit </a>";
+                                          echo "<a href='#' class='btn btn-xs btn-danger'> <i class='fa fa-close'> </i> Delete </a>";
+                                    echo "</div>";
+
+                                    echo "<h3>".$cat['Name'] . "</h3>";
+
+                                    echo "<p>"; if($cat['Des'] == ''){echo 'This is catgeory has no description';} else{echo $cat['Des'] ;} echo "</p>";
+
+                                    if($cat['Visibilty'] == 1){ echo  "<span class='visibilty'>Hidden</span>";}
+
+                                    if($cat['Allow_Comment'] == 1){ echo  "<span class='commenting'>Comment Disabled</span>";}
+
+                                    if($cat['Allow_Ads'] == 1){ echo  "<span class='advertises'>Ads Disabled</span>";}
+                               echo "</div>";
+                               echo "<hr>";
+                           }
+                        ?>
+                   </div>
+             </div>
+        </div>
+       <?php
     }
     elseif($do == 'Add')
     { ?>

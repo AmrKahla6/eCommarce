@@ -177,3 +177,84 @@ label {
     margin-left: 5px;
 }
 /* End Members Page*/
+
+/* Start Category Page*/
+.categories .panel-body {
+    padding: 0;
+}
+
+.categories .ordering a {
+    color: #888;
+    text-decoration: none;
+}
+
+.categories .ordering .active {
+    color: #F00;
+    font-weight: bold;
+}
+
+.categories hr {
+    margin-top: 5px ;
+    margin-bottom: 5px;
+}
+
+.categories .cat {
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.categories .cat:hover {
+    background-color: #EEE;
+}
+
+.categories .cat:hover .hidden-buttons {
+    right: 10px;
+}
+.categories .cat .hidden-buttons{
+    -webkit-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
+    position: absolute;
+    top: 15px;
+    right: -120px;
+}
+
+
+.categories .cat .hidden-buttons a {
+    margin-right: 5px;
+}
+
+.categories .cat h3 {
+    margin: 0 0 10px;
+}
+
+.categories .cat:last-of-type ~ hr{
+    display: none;
+}
+
+
+.categories .cat .visibilty {
+    background-color: #d35400;
+    color: #FFF;
+    padding: 4px 6px;
+    margin-right: 6px;
+    border-radius: 6px;
+}
+
+.categories .cat .commenting {
+    background-color: #3c3e50;
+    color: #FFF;
+    padding: 4px 6px;
+    margin-right: 6px;
+    border-radius: 6px;
+}
+
+.categories .cat .advertises {
+    background-color: #c0392b;
+    color: #FFF;
+    padding: 4px 6px;
+    margin-right: 6px;
+    border-radius: 6px;
+}
+/* End Category Page*/
