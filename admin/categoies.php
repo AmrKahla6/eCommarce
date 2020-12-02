@@ -339,9 +339,45 @@ if(isset($_SESSION['Username']))
         }
    }
     elseif($do == 'Update')
-    {
+    {// Update Page
+        echo '<h1 class="text-center">Update Category</h1>';
+        echo "<div class='container'>";
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            // Get varabiles from form
+            $id       = $_POST['catid'];
+            $name     = $_POST['name'];
+            $des      = $_POST['des'];
+            $order    = $_POST['ordering'];
+            $visible  = $_POST['visibilty'];
+            $comment  = $_POST['commenting'];
+            $ads      = $_POST['ads'];
 
-    }
+            // Update db with info
+            $stmt = $con->prepare("UPDATE
+                                        categories
+                                    SET
+                                        Name          = ? ,
+                                        Des           = ? ,
+                                        Ordering      = ? ,
+                                        Visibilty     = ? ,
+                                        Allow_Comment = ? ,
+                                        Allow_Ads     = ?
+                                    WHERE
+                                        ID            = ?");
+            $stmt->execute(array($name , $des , $order , $visible , $comment , $ads , $id));
+
+            // Ecoh success message
+            $theMsg =  "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Updated </div>';
+            redirectHome($theMsg , 'back');
+        }
+        else
+        {
+            $theMsg = "<div class='alert alert-danger'> You can not browes this page directly </div>";
+            redirectHome($theMsg);
+        }
+        echo "</div>";
+      }
     elseif($do == 'Delete')
     {
 
