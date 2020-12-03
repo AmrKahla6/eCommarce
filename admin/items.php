@@ -263,8 +263,142 @@ if(isset($_SESSION['Username']))
     }
     elseif($do == 'Edit')
     {
+        // Validate chech if Get request userid & is numeric
+        $itemid = isset($_GET['itemid']) && is_numeric($_GET['itemid']) ? intval($_GET['itemid']) : 0 ;
 
-    }
+        // Select all data from db depend on this id
+        $stmt  = $con->prepare("SELECT * FROM items where item_ID = ?");
+
+        // Execute Query
+        $stmt->execute(array($itemid));
+
+        // Fetch data from db
+        $item   = $stmt->fetch();
+
+       //if count > 0 this mean the db contain record about this username
+        $count = $stmt->rowCount(); // exist or not
+        if($count > 0){// Edit Page?>
+            <h1 class="text-center">Edit Item</h1>
+            <div class="container">
+                <form class="form-horizontal" action="?do=Update" method="POST">
+                    <!-- Start Name Faild -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" name="name" class="form-control" value="<?php echo $item['Name'] ?>" required>
+                        </div>
+                    </div>
+                    <!-- End Name Faild -->
+
+                    <!-- Start Description Faild -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" name="des" class="form-control" value="<?php echo $item['Des'] ?>">
+                        </div>
+                    </div>
+                    <!-- End Description Faild -->
+
+                     <!-- Start Price Faild -->
+                     <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Price</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" name="price" class="form-control" value="<?php echo $item['Price'] ?>">
+                        </div>
+                    </div>
+                    <!-- End Price Faild -->
+
+                    <!-- Start Country Made Faild -->
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-2 control-label">Country</label>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" name="country" class="form-control" value="<?php echo $item['Country_Made'] ?>">
+                        </div>
+                    </div>
+                    <!-- End Country Made Faild -->
+
+                      <!-- Start Status Faild -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-10 col-md-6" >
+                        <select name="status" >
+                               <option value="0">Choose Status</option>
+                               <option value="1" <?php if($item['Status'] == 1) { echo 'selected' ;} ?>> New      </option>
+                               <option value="2" <?php if($item['Status'] == 2) { echo 'selected' ;} ?>> Like New </option>
+                               <option value="3" <?php if($item['Status'] == 3) { echo 'selected' ;} ?>> Used     </option>
+                               <option value="4" <?php if($item['Status'] == 4) { echo 'selected' ;} ?>> Very Old </option>
+                        </select>
+                    </div>
+                </div>
+                <!-- End Status Faild -->
+
+                  <!-- Start Users Faild -->
+                  <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Member</label>
+                    <div class="col-sm-10 col-md-6">
+                        <select name="member">
+                               <option value="0">Choose Member</option>
+                               <?php
+                                    $stmt = $con->prepare("SELECT * FROM users");
+                                    $stmt->execute();
+                                    $users = $stmt->fetchAll();
+
+                                    foreach($users as $user)
+                                    {
+                                        echo "<option value='" . $user['UserID'] . "'";
+                                        if($item['User_ID'] == $user['UserID'] ) { echo 'selected' ;}
+                                        echo">" . $user['Username'] . "</option>";
+                                    }
+                                ?>
+                        </select>
+                    </div>
+                </div>
+                <!-- End Users Faild -->
+
+                  <!-- Start Category Faild -->
+                  <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Category</label>
+                    <div class="col-sm-10 col-md-6">
+                        <select name="category">
+                               <option value="0">Choose Category</option>
+                               <?php
+                                    $stmt = $con->prepare("SELECT * FROM categories");
+                                    $stmt->execute();
+                                    $categories = $stmt->fetchAll();
+
+                                    foreach($categories as $category)
+                                    {
+                                        echo "<option value='" . $category['ID'] . "'";
+                                        if($item['Cat_ID'] == $category['ID'] ) { echo 'selected' ;}
+                                        echo">" . $category['Name'] . "</option>";
+                                    }
+                                ?>
+                        </select>
+                    </div>
+                </div>
+                <!-- End Category Faild -->
+
+
+                    <!-- Start submit Faild -->
+                        <div class="form-group form-group-lg">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="submit" value="Update" class="btn btn-primary btn-lg">
+                            </div>
+                        </div>
+                    <!-- End submit Faild -->
+                </form>
+            </div>
+       <?php
+       // If there is no sach ID  show error message
+        }
+        else
+        {
+            echo "<div class='container'>";
+            $theMsg = '<div class="alert alert-danger"> There Is No Such ID </div>';
+            redirectHome($theMsg);
+            echo "</div>";
+        }
+   }
     elseif($do == 'Update')
     {
 
