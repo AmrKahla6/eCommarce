@@ -1,9 +1,17 @@
-/**
- * Hide placeholder on form focas
- */
-
  $(function(){
      'use strict';
+     //Trigger The Selectboxit
+     $("select").selectBoxIt({
+         autoWidth : false,
+          // Uses the jQueryUI theme for the drop down
+          theme: "jqueryui",
+
+         // Hides the first select box option from appearing when the drop down is opened
+         showFirstOption: false,
+         // Hides the currently selected option from appearing when the drop down is opened
+         hideCurrent: true
+     });
+     //Hide placeholder on form focas
      $('[placeholder]').focus(function(){
          $(this).attr('data-text' , $(this).attr('placeholder'));
          $(this).attr('placeholder' , '');
