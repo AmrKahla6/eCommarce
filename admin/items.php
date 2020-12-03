@@ -72,6 +72,48 @@ if(isset($_SESSION['Username']))
                 </div>
                 <!-- End Status Faild -->
 
+                  <!-- Start Users Faild -->
+                  <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Member</label>
+                    <div class="col-sm-10 col-md-6">
+                        <select name="member">
+                               <option value="0">Choose Member</option>
+                               <?php
+                                    $stmt = $con->prepare("SELECT * FROM users");
+                                    $stmt->execute();
+                                    $users = $stmt->fetchAll();
+
+                                    foreach($users as $user)
+                                    {
+                                        echo "<option value='" . $user['UserID'] . "'>" . $user['Username'] . "</option>";
+                                    }
+                                ?>
+                        </select>
+                    </div>
+                </div>
+                <!-- End Users Faild -->
+
+                  <!-- Start Category Faild -->
+                  <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Category</label>
+                    <div class="col-sm-10 col-md-6">
+                        <select name="category">
+                               <option value="0">Choose Category</option>
+                               <?php
+                                    $stmt = $con->prepare("SELECT * FROM categories");
+                                    $stmt->execute();
+                                    $categories = $stmt->fetchAll();
+
+                                    foreach($categories as $category)
+                                    {
+                                        echo "<option value='" . $category['ID'] . "'>" . $category['Name'] . "</option>";
+                                    }
+                                ?>
+                        </select>
+                    </div>
+                </div>
+                <!-- End Category Faild -->
+
                   <!-- Start submit Faild -->
                 <div class="form-group form-group-lg">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -92,11 +134,13 @@ if(isset($_SESSION['Username']))
             echo '<h1 class="text-center">Store Items</h1>';
             echo "<div class='container'>";
             // Get varabiles from form
-            $name     = $_POST['name'];
-            $des      = $_POST['des'];
-            $price    = $_POST['price'];
-            $country  = $_POST['country'];
-            $status   = $_POST['status'];
+            $name       = $_POST['name'];
+            $des        = $_POST['des'];
+            $price      = $_POST['price'];
+            $country    = $_POST['country'];
+            $status     = $_POST['status'];
+            $member     = $_POST['member'];
+            $cat        = $_POST['category'];
              //Validate the form
              $formerrors = array();
 
@@ -123,6 +167,16 @@ if(isset($_SESSION['Username']))
                 $formerrors[] = 'Status Can\'t be <strong> Empty </strong>';
              }
 
+             if($member == 0)
+             {
+                $formerrors[] = 'Member Can\'t be <strong> Empty </strong>';
+             }
+
+             if($cat == 0)
+             {
+                $formerrors[] = 'Category Can\'t be <strong> Empty </strong>';
+             }
+
              // Loop into Errors and echo it
              foreach($formerrors as $error)
              {
@@ -133,14 +187,16 @@ if(isset($_SESSION['Username']))
              {
                         // Store members in db
                         $stmt = $con->prepare("INSERT INTO
-                                                    items(Name, Des, Price, Add_Date , Country_Made , Status )
-                                                    VALUES(:zname , :zdes , :zprice , now() , :zcountry , :zstatus)");
+                                                    items(Name, Des, Price, Add_Date , Country_Made , Status , User_ID , Cat_ID)
+                                                    VALUES(:zname , :zdes , :zprice , now() , :zcountry , :zstatus , :zuser , :zcat)");
                         $stmt->execute(array(
                             'zname'     => $name,
                             'zdes'      => $des,
                             'zprice'    => $price,
                             'zcountry'  => $country,
                             'zstatus'   => $status,
+                            'zuser'     => $member,
+                            'zcat'      => $cat,
                         ));
 
                         // Ecoh success message
