@@ -14,7 +14,48 @@ if(isset($_SESSION['Username']))
 
     if($do == 'Manage')
     {
-        echo 'Welcome to items page';
+        $stmt = $con->prepare("SELECT * FROM items");
+        $stmt->execute();
+
+        // Assign to a variable
+        $items = $stmt->fetchAll()
+        ?>
+         <!-- Manage Page -->
+     <h1 class="text-center">Manage Item</h1>
+        <div class="container">
+         <div class="table-responsive">
+              <table class="main-table text-center table table-bordered">
+                  <tr>
+                      <td>#ID</td>
+                      <td>Name</td>
+                      <td>Description</td>
+                      <td>Price</td>
+                      <td>Adding Date</td>
+                      <td>Control</td>
+                  </tr>
+                 <?php foreach($items as $item)
+                       {
+                           echo '<tr>';
+                               echo '<td>'.$item['item_ID'] . '</td>';
+                               echo '<td>'.$item['Name']. '</td>';
+                               echo '<td>'.$item['Des']. '</td>';
+                               echo '<td>'.$item['Price']. '</td>';
+                               echo '<td>'.$item['Add_Date']. '</td>';
+                               echo "<td>
+                                         <a href='items.php?do=Edit&itemid=" . $item['item_ID'] . "' class='btn btn-success'> <i class='fa fa-edit'></i> Edit</a>
+                                         <a href='items.php?do=Delete&itemid=" . $item['item_ID'] . "' class='btn btn-danger confirm'> <i class='fa fa-close'></i>  Delete</a>";
+
+
+                               echo  "</td>";
+                           echo '</tr>';
+                       }
+                  ?>
+              </table>
+         </div>
+             <a href="?do=Add" class="btn btn-primary btn-sm"> <i class="fa fa-plus"></i> New Item</a>
+        </div>
+
+    <?php
     }
     elseif($do == 'Add')
     { ?>
@@ -208,7 +249,7 @@ if(isset($_SESSION['Username']))
         else
         {
             echo '<div class="container">';
-            $theMsg = '<div class="alert alert-danger">  Sorry You Can Not Browes This Page Directly </div>';
+            $theMsg = '<div class="alert alert-danger">  Sorry You Can Not Bitemes This Page Directly </div>';
             redirectHome($theMsg);
             echo '</div>';
         }
