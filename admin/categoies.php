@@ -222,7 +222,7 @@ if(isset($_SESSION['Username']))
         {
             echo '<div class="container">';
             $theMsg = '<div class="alert alert-danger">  Sorry You Can Not Browes This Page Directly </div>';
-            redirectHome($theMsg , 'back');
+            redirectHome($theMsg);
             echo '</div>';
         }
         echo "</div>";
