@@ -14,7 +14,9 @@ if(isset($_SESSION['Username']))
 
     if($do == 'Manage')
     {
-        $stmt = $con->prepare("SELECT * FROM items");
+        $stmt = $con->prepare("SELECT items. * , categories.Name AS categories_name , users.Username AS User_name FROM items
+                               INNER JOIN categories ON categories.ID = items.Cat_ID
+                               INNER JOIN users ON users.UserID = items.User_ID");
         $stmt->execute();
 
         // Assign to a variable
@@ -31,6 +33,8 @@ if(isset($_SESSION['Username']))
                       <td>Description</td>
                       <td>Price</td>
                       <td>Adding Date</td>
+                      <td>Category</td>
+                      <td>User Name</td>
                       <td>Control</td>
                   </tr>
                  <?php foreach($items as $item)
@@ -41,6 +45,8 @@ if(isset($_SESSION['Username']))
                                echo '<td>'.$item['Des']. '</td>';
                                echo '<td>'.$item['Price']. '</td>';
                                echo '<td>'.$item['Add_Date']. '</td>';
+                               echo '<td>'.$item['categories_name']. '</td>';
+                               echo '<td>'.$item['User_name']. '</td>';
                                echo "<td>
                                          <a href='items.php?do=Edit&itemid=" . $item['item_ID'] . "' class='btn btn-success'> <i class='fa fa-edit'></i> Edit</a>
                                          <a href='items.php?do=Delete&itemid=" . $item['item_ID'] . "' class='btn btn-danger confirm'> <i class='fa fa-close'></i>  Delete</a>";
