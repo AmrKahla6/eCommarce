@@ -281,6 +281,7 @@ if(isset($_SESSION['Username']))
             <h1 class="text-center">Edit Item</h1>
             <div class="container">
                 <form class="form-horizontal" action="?do=Update" method="POST">
+                <input type="hidden" name="itemid" value="<?php echo $itemid ?>">
                     <!-- Start Name Faild -->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Name</label>
@@ -400,9 +401,101 @@ if(isset($_SESSION['Username']))
         }
    }
     elseif($do == 'Update')
+   {// Update Page
+    echo '<h1 class="text-center">Update Category</h1>';
+    echo "<div class='container'>";
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
+        // Get varabiles from form
+        $id       = $_POST['itemid'];
+        $name     = $_POST['name'];
+        $des      = $_POST['des'];
+        $price    = $_POST['price'];
+        $country  = $_POST['country'];
+        $status   = $_POST['status'];
+        $cat      = $_POST['category'];
+        $member   = $_POST['member'];
 
+         //Validate the form
+         $formerrors = array();
+
+
+         if(empty($name))
+         {
+            $formerrors[] = 'Name Can\'t be <strong> Empty </strong>';
+         }
+         if(empty($des))
+         {
+            $formerrors[] = 'Description Can\'t be <strong> Empty </strong>';
+         }
+         if(empty($price))
+         {
+            $formerrors[] = 'Price Can\'t be <strong> Empty </strong>';
+         }
+         if(empty($country))
+         {
+            $formerrors[] = 'Country Can\'t be <strong> Empty </strong>';
+         }
+
+         if($status == 0)
+         {
+            $formerrors[] = 'Status Can\'t be <strong> Empty </strong>';
+         }
+
+         if($member == 0)
+         {
+            $formerrors[] = 'Member Can\'t be <strong> Empty </strong>';
+         }
+
+         if($cat  == 0)
+         {
+            $formerrors[] = 'Category Can\'t be <strong> Empty </strong>';
+         }
+
+         // Loop into Errors and echo it
+         foreach($formerrors as $error)
+         {
+             echo '<div class="alert alert-danger">' .$error . '</div>';
+         }
+         // Chech if no errors
+         if(empty($formerrors))
+         {
+                  // Update db with info
+                    $stmt = $con->prepare("UPDATE
+                    items
+                        SET
+                            Name          = ? ,
+                            Des           = ? ,
+                            Price         = ? ,
+                            Country_Made  = ? ,
+                            Status        = ? ,
+                            Cat_ID        = ? ,
+                            User_ID       = ?
+                        WHERE
+                            item_ID       = ?");
+                    $stmt->execute(array($name , $des , $price , $country , $status , $cat , $member , $id));
+                    // Ecoh success message
+                    $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Store </div>';
+                    redirectHome($theMsg , 'back');
+
+        }
+
+    else
+    {
+        echo '<div class="container">';
+        $theMsg = '<div class="alert alert-danger">  Sorry You Can Not Bitemes This Page Directly </div>';
+        redirectHome($theMsg);
+        echo '</div>';
     }
+    echo "</div>";
+    }
+    else
+    {
+        $theMsg = "<div class='alert alert-danger'> You can not browes this page directly </div>";
+        redirectHome($theMsg);
+    }
+    echo "</div>";
+}
     elseif($do == 'Delete')
     {
 

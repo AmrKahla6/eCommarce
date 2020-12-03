@@ -386,7 +386,7 @@ if(isset($_SESSION['Username']))
             redirectHome($theMsg);
         }
         echo "</div>";
-      }
+    }
     elseif($do == 'Delete')
     {// Delete Category page
         echo '<h1 class="text-center"> Delete Category </h1>';
