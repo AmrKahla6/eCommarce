@@ -65,6 +65,7 @@
                     </div>
               </div>
          </div>
+
     </div>
 
 
@@ -137,7 +138,49 @@
                         </div>
                    </div>
               </div>
+
          </div>
+
+
+
+         <!-- Start Latest Comments -->
+         <div class="row">
+              <div class="col-sm-6">
+                   <div class="panel panel-default">
+                        <div class="panel-heading">
+                           <i class="fa fa-comments-o"></i>Latest Comments
+                           <span class="pull-right toggle-info">
+                               <i class="fa fa-plus fa-lg"></i>
+                           </span>
+                        </div>
+                        <div class="panel-body">
+                          <?php
+                                $stmt = $con->prepare("SELECT
+                                    comments.* , users.Username AS User_Name
+                                FROM
+                                    comments
+                                INNER JOIN
+                                    users
+                                ON
+                                    users.UserID = comments.user_id");
+
+                                $stmt->execute();
+                                $comments = $stmt->fetchAll();
+
+                                foreach($comments as $comment)
+                                {
+                                    echo '<div class="comment-box">';
+                                          echo '<span class="member-n">' . $comment['User_Name'] . '</span>';
+                                          echo '<p class="comment-c">' . $comment['comment'] . '</p>';
+                                    echo '</div>';
+                                }
+                          ?>
+                        </div>
+                   </div>
+              </div>
+         </div>
+
+         <!-- End Latest Comments -->
     </div>
     <?php
     /*End Dashboard page*/

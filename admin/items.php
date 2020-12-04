@@ -391,8 +391,54 @@ if(isset($_SESSION['Username']))
                         </div>
                     <!-- End submit Faild -->
                 </form>
-            </div>
-       <?php
+                <?php
+                //Select all comments
+                $stmt = $con->prepare("SELECT
+                                            comments.* , users.Username AS User_Name
+                                        FROM
+                                            comments
+                                        INNER JOIN
+                                            users
+                                        ON
+                                            users.UserID = comments.user_id
+                                        WHERE
+                                            item_id = ?");
+                $stmt->execute(array($itemid));
+                $comments = $stmt->fetchAll();
+
+                if(!empty($comments))
+                {
+                   ?>
+                    <h1 class="text-center">Manage [ <?php echo $item['Name'] ?> ] Comments</h1>
+                    <div class="table-responsive">
+                        <table class="main-table text-center table table-bordered">
+                            <tr>
+                                <td>Comment</td>
+                                <td>User Name</td>
+                                <td>Comment Date</td>
+                                <td>Control</td>
+                            </tr>
+                            <?php foreach($comments as $comment)
+                                {
+                                    echo '<tr>';
+                                        echo '<td>'.$comment['comment']. '</td>';
+                                        echo '<td>'.$comment['User_Name']. '</td>';
+                                        echo '<td>'.$comment['comment_date']. '</td>';
+                                        echo "<td>
+                                                    <a href='comments.php?do=Edit&commentid=" . $comment['comment_id'] . "' class='btn btn-success'> <i class='fa fa-edit'></i> Edit</a>
+                                                    <a href='comments.php?do=Delete&commentid=" . $comment['comment_id'] . "' class='btn btn-danger confirm'> <i class='fa fa-close'></i>  Delete</a>";
+
+                                                    if($comment['status'] == 0)
+                                                    {
+                                                        echo "<a href='comments.php?do=Approve&commentid=" . $comment['comment_id'] . "' class='btn btn-info activate'> <i class='fa fa-check'></i> Approve </a>";
+                                                    }
+                                        echo  "</td>";
+                                    echo '</tr>';
+                                }
+                            ?>
+                        </table>
+            <?php
+                }
        // If there is no sach ID  show error message
         }
         else

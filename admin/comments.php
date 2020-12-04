@@ -13,8 +13,8 @@ if(isset($_SESSION['Username']))
     $do = isset($_GET['do']) ? $_GET['do'] : 'Manage' ;
 
     if($do == 'Manage')
-    {
-       // Manage Comment Page
+    {// Manage Comment Page
+
        //Select all comments
        $stmt = $con->prepare("SELECT
                                    comments.* , items.Name AS Item_Name , users.Username AS User_Name
