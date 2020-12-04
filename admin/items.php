@@ -336,8 +336,8 @@ if(isset($_SESSION['Username']))
                 </div>
                 <!-- End Status Faild -->
 
-                  <!-- Start Users Faild -->
-                  <div class="form-group form-group-lg">
+                <!-- Start Users Faild -->
+                <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Member</label>
                     <div class="col-sm-10 col-md-6">
                         <select name="member">
