@@ -14,7 +14,7 @@
     $theLatestUsers = getLatest('*' , 'users', 'WHERE GroupID != 1' , 'UserID' , $latestUser ); // Latest users array
 
     $latestitems    = 3 ; // Number of latest users
-    $theLatestitems = getLatest('*' , 'items' , 'item_ID' , $latestitems); // Latest items array
+    $theLatestitems = getLatest('*' , 'items' , null , 'item_ID', $latestitems); // Latest items array
 
     $latestcomments = 3 ; // Number of latest users
     ?>
@@ -51,7 +51,7 @@
                          <div class="info">
                             Total Items
                             <span>
-                                <span> <a href="items.php"> <?php echo countItems('item_ID ' , 'items') ?> </a> </span>
+                                <span> <a href="items.php"> <?php echo countItems('item_ID ' , 'items' , null) ?> </a> </span>
                             </span>
                          </div>
                     </div>
@@ -62,7 +62,7 @@
                         <i class="fa fa-comments"></i>
                         <div class="info">
                             Total Comments
-                            <span><a href="comments.php"> <?php echo countItems('comment_id' , 'comments') ?> </a></span>
+                            <span><a href="comments.php"> <?php echo countItems('comment_id' , 'comments' , null) ?> </a></span>
                         </div>
                     </div>
               </div>
@@ -181,6 +181,8 @@
                                     users
                                 ON
                                     users.UserID = comments.user_id
+                                ORDER BY
+                                    comment_id  DESC
                                 LIMIT $latestcomments ");
 
                                 $stmt->execute();

@@ -23,7 +23,14 @@ if(isset($_SESSION['Username']))
            $query = 'AND RegStatus = 0';
        }
        // Select all members except Admins
-       $stmt = $con->prepare("SELECT * FROM users where GroupID != 1 $query");
+       $stmt = $con->prepare("  SELECT
+                                    *
+                                FROM
+                                    users
+                                where
+                                    GroupID != 1 $query
+                                ORDER BY
+                                    UserID DESC");
        $stmt->execute();
 
        // Assign to a variable
@@ -227,7 +234,13 @@ if(isset($_SESSION['Username']))
         $userid = isset($_GET['userid']) && is_numeric($_GET['userid']) ? intval($_GET['userid']) : 0 ;
 
         // Select all data from db depend on this id
-        $stmt  = $con->prepare("SELECT * FROM users where UserID = ? LIMIT 1");
+        $stmt  = $con->prepare("    SELECT
+                                        *
+                                    FROM
+                                        users
+                                    where
+                                        UserID = ?
+                                    LIMIT 1");
 
         // Execute Query
         $stmt->execute(array($userid));
@@ -341,14 +354,33 @@ if(isset($_SESSION['Username']))
           // Chech if no errors
           if(empty($formerrors))
           {
-              // Update db with info
+              $stmt2 = $con->prepare("  SELECT
+                                             *
+                                        FROM
+                                            users
+                                        WHERE
+                                            Username = ?
+                                        AND
+                                            UserID  != ?");
 
-              $stmt = $con->prepare("UPDATE users SET Username = ? , Email = ? , FullName = ? , Password = ? WHERE UserID = ?");
-              $stmt->execute(array($user , $email , $name , $pass , $id));
+                $stmt2->execute(array($user , $id));
+                $count = $stmt2->rowCount();
 
-              // Ecoh success message
-              $theMsg =  "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Updated </div>';
-              redirectHome($theMsg , 'back');
+                if($count == 1)
+                {
+                    $theMsg =  "<div class='alert alert-danger'> Sorry This User Is Exist </div>";
+                    redirectHome($theMsg , 'back');
+                }
+                else
+                {
+                    // Update db with info
+                    $stmt = $con->prepare("UPDATE users SET Username = ? , Email = ? , FullName = ? , Password = ? WHERE UserID = ?");
+                    $stmt->execute(array($user , $email , $name , $pass , $id));
+
+                    // Ecoh success message
+                    $theMsg =  "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Updated </div>';
+                    redirectHome($theMsg , 'back');
+                }
           }
      }
      else

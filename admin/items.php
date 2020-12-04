@@ -14,9 +14,20 @@ if(isset($_SESSION['Username']))
 
     if($do == 'Manage')
     {
-        $stmt = $con->prepare("SELECT items. * , categories.Name AS categories_name , users.Username AS User_name FROM items
-                               INNER JOIN categories ON categories.ID = items.Cat_ID
-                               INNER JOIN users ON users.UserID = items.User_ID");
+        $stmt = $con->prepare(" SELECT
+                                     items. * , categories.Name AS categories_name , users.Username AS User_name
+                                FROM
+                                    items
+                                INNER JOIN
+                                    categories
+                                ON
+                                    categories.ID = items.Cat_ID
+                                INNER JOIN
+                                   users
+                                ON
+                                  users.UserID = items.User_ID
+                                ORDER BY
+                                  item_ID DESC");
         $stmt->execute();
 
         // Assign to a variable
