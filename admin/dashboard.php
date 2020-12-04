@@ -60,7 +60,7 @@
                         <i class="fa fa-comments"></i>
                         <div class="info">
                             Total Comments
-                            <span>200</span>
+                            <span><a href="comments.php"> <?php echo countItems('comment_id' , 'comments') ?> </a></span>
                         </div>
                     </div>
               </div>
