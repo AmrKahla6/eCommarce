@@ -76,11 +76,11 @@
    * $table = The table to choose from
  */
 
- function countItems($item , $table)
+ function countItems($item , $table , $GroupID = null)
  {
     global $con ;
 
-    $stmt2     = $con->prepare("SELECT COUNT($item) FROM $table");
+    $stmt2     = $con->prepare("SELECT COUNT($item) FROM $table $GroupID");
     $stmt2->execute();
     return $stmt2->fetchColumn();
  }
@@ -95,11 +95,11 @@
   * $limit  = Number of recordes to get
  */
 
- function getLatest($select , $table , $order ,  $limit = 5)
+ function getLatest($select , $table, $GroupID = null , $order ,  $limit = 3 )
  {
      global $con;
 
-     $getStmt = $con->prepare("SELECT $select FROM $table ORDER BY $order DESC LIMIT $limit ");
+     $getStmt = $con->prepare("SELECT $select FROM $table $GroupID ORDER BY $order DESC LIMIT $limit");
 
      $getStmt->execute();
 

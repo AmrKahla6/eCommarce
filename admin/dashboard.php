@@ -11,10 +11,12 @@
     /*Start Dashboard page*/
 
     $latestUser     = 3 ; // Number of latest users
-    $theLatestUsers = getLatest('*' , 'users' , 'UserID' , $latestUser); // Latest users array
+    $theLatestUsers = getLatest('*' , 'users', 'WHERE GroupID != 1' , 'UserID' , $latestUser ); // Latest users array
 
     $latestitems    = 3 ; // Number of latest users
     $theLatestitems = getLatest('*' , 'items' , 'item_ID' , $latestitems); // Latest items array
+
+    $latestcomments = 3 ; // Number of latest users
     ?>
     <div class="container home-stats text-center">
          <h1>Dashboard</h1>
@@ -25,7 +27,7 @@
                         <div class="info">
                             Total Members
                             <span>
-                                <a href="members.php"> <?php echo countItems('UserID' , 'users') ?> </a>
+                                <a href="members.php"> <?php echo countItems('UserID' , 'users' , 'WHERE GroupID != 1') ?> </a>
                             </span>
                         </div>
                     </div>
@@ -82,6 +84,8 @@
                         <div class="panel-body">
                             <ul class="list-unstyled latest-users">
                                 <?php
+                                if(!empty($theLatestUsers))
+                                {
                                     foreach($theLatestUsers as $user)
                                     {
                                         echo '<li>' . $user['Username'] .
@@ -99,6 +103,11 @@
                                                     }
                                                '</li>';
                                     }
+                                }else{
+                                    echo '<div class="container">';
+                                           echo '<div>There\'s No Users To Show</div>';
+                                    echo '</div>';
+                                }
                                 ?>
                             </ul>
                         </div>
@@ -116,6 +125,8 @@
                         <div class="panel-body">
                             <ul class="list-unstyled latest-users">
                                 <?php
+                                if($theLatestitems)
+                                {
                                     foreach($theLatestitems as $item)
                                     {
                                         echo '<li>' . $item['Name'] .
@@ -133,6 +144,13 @@
                                                     }
                                                '</li>';
                                     }
+                                }
+                                else
+                                {
+                                    echo '<div class="container">';
+                                          echo '<div>There\'s No Items To Show</div>';
+                                    echo '</div>';
+                                }
                                 ?>
                             </ul>
                         </div>
@@ -148,7 +166,7 @@
               <div class="col-sm-6">
                    <div class="panel panel-default">
                         <div class="panel-heading">
-                           <i class="fa fa-comments-o"></i>Latest Comments
+                           <i class="fa fa-comments-o"></i>Latest <?php echo $latestcomments ?> Comments
                            <span class="pull-right toggle-info">
                                <i class="fa fa-plus fa-lg"></i>
                            </span>
@@ -162,11 +180,13 @@
                                 INNER JOIN
                                     users
                                 ON
-                                    users.UserID = comments.user_id");
+                                    users.UserID = comments.user_id
+                                LIMIT $latestcomments ");
 
                                 $stmt->execute();
                                 $comments = $stmt->fetchAll();
-
+                               if($comments)
+                               {
                                 foreach($comments as $comment)
                                 {
                                     echo '<div class="comment-box">';
@@ -174,6 +194,14 @@
                                           echo '<p class="comment-c">' . $comment['comment'] . '</p>';
                                     echo '</div>';
                                 }
+
+                            }
+                            else
+                            {
+                                echo '<div class="container">';
+                                      echo '<div>There\'s No Comments To Show</div>';
+                                echo '</div>';
+                            }
                           ?>
                         </div>
                    </div>

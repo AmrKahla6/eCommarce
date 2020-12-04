@@ -24,6 +24,7 @@ if(isset($_SESSION['Username']))
         ?>
          <!-- Manage Page -->
      <h1 class="text-center">Manage Item</h1>
+     <?php  if(!empty($items)) { ?>
         <div class="container">
          <div class="table-responsive">
               <table class="main-table text-center table table-bordered">
@@ -37,7 +38,8 @@ if(isset($_SESSION['Username']))
                       <td>User Name</td>
                       <td>Control</td>
                   </tr>
-                 <?php foreach($items as $item)
+            <?php
+                foreach($items as $item)
                        {
                            echo '<tr>';
                                echo '<td>'.$item['item_ID'] . '</td>';
@@ -63,8 +65,16 @@ if(isset($_SESSION['Username']))
          </div>
              <a href="?do=Add" class="btn btn-primary btn-sm"> <i class="fa fa-plus"></i> New Item</a>
         </div>
+<?php
 
-    <?php
+    }
+        else
+        {
+                echo '<div class="container">';
+                    echo '<div class="nice-message">There\'s No Items To Show</div>';
+                    echo '<a href="?do=Add" class="btn btn-primary btn-lg"> <i class="fa fa-plus"></i> New Item </a>';
+                echo '</div>';
+        }
     }
     elseif($do == 'Add')
     { ?>

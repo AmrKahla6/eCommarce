@@ -32,6 +32,7 @@ if(isset($_SESSION['Username']))
        $comments = $stmt->fetchAll();
        ?>
         <h1 class="text-center">Manage Comments</h1>
+        <?php if(!empty($comments)){ ?>
        <div class="container">
         <div class="table-responsive">
              <table class="main-table text-center table table-bordered">
@@ -43,29 +44,36 @@ if(isset($_SESSION['Username']))
                      <td>Comment Date</td>
                      <td>Control</td>
                  </tr>
-                <?php foreach($comments as $comment)
-                      {
-                          echo '<tr>';
-                              echo '<td>'.$comment['comment_id'] . '</td>';
-                              echo '<td>'.$comment['comment']. '</td>';
-                              echo '<td>'.$comment['Item_Name']. '</td>';
-                              echo '<td>'.$comment['User_Name']. '</td>';
-                              echo '<td>'.$comment['comment_date']. '</td>';
-                              echo "<td>
-                                        <a href='comments.php?do=Edit&commentid=" . $comment['comment_id'] . "' class='btn btn-success'> <i class='fa fa-edit'></i> Edit</a>
-                                        <a href='comments.php?do=Delete&commentid=" . $comment['comment_id'] . "' class='btn btn-danger confirm'> <i class='fa fa-close'></i>  Delete</a>";
+                <?php
+                    foreach($comments as $comment)
+                        {
+                            echo '<tr>';
+                                echo '<td>'.$comment['comment_id'] . '</td>';
+                                echo '<td>'.$comment['comment']. '</td>';
+                                echo '<td>'.$comment['Item_Name']. '</td>';
+                                echo '<td>'.$comment['User_Name']. '</td>';
+                                echo '<td>'.$comment['comment_date']. '</td>';
+                                echo "<td>
+                                            <a href='comments.php?do=Edit&commentid=" . $comment['comment_id'] . "' class='btn btn-success'> <i class='fa fa-edit'></i> Edit</a>
+                                            <a href='comments.php?do=Delete&commentid=" . $comment['comment_id'] . "' class='btn btn-danger confirm'> <i class='fa fa-close'></i>  Delete</a>";
 
-                                        if($comment['status'] == 0)
-                                        {
-                                            echo "<a href='comments.php?do=Approve&commentid=" . $comment['comment_id'] . "' class='btn btn-info activate'> <i class='fa fa-check'></i> Approve </a>";
-                                        }
-                              echo  "</td>";
-                          echo '</tr>';
-                      }
-                 ?>
-             </table>
+                                            if($comment['status'] == 0)
+                                            {
+                                                echo "<a href='comments.php?do=Approve&commentid=" . $comment['comment_id'] . "' class='btn btn-info activate'> <i class='fa fa-check'></i> Approve </a>";
+                                            }
+                                echo  "</td>";
+                            echo '</tr>';
+                        }
+                    ?>
+                </table>
 
-   <?php
+                <?php
+        }else
+        {
+            echo '<div class="container">';
+                echo '<div class="nice-message">There\'s No Comments Of Users To Show</div>';
+            echo '</div>';
+        }
     }
     elseif($do == 'Edit')
     {

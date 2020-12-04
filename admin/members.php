@@ -31,6 +31,7 @@ if(isset($_SESSION['Username']))
        ?>
         <!-- Manage Page -->
     <h1 class="text-center">Manage Members</h1>
+    <?php if($rows) {?>
        <div class="container">
         <div class="table-responsive">
              <table class="main-table text-center table table-bordered">
@@ -42,7 +43,11 @@ if(isset($_SESSION['Username']))
                      <td>Registerd Date</td>
                      <td>Control</td>
                  </tr>
-                <?php foreach($rows as $row)
+
+                <?php
+
+
+                   foreach($rows as $row)
                       {
                           echo '<tr>';
                               echo '<td>'.$row['UserID'] . '</td>';
@@ -56,18 +61,27 @@ if(isset($_SESSION['Username']))
 
                                         if($row['RegStatus'] == 0)
                                         {
-                                            echo "<a href='members.php?do=Activate&userid=" . $row['UserID'] . "' class='btn btn-info activate'> <i class='fa fa-check'></i>   Activate </a>";
+                                            echo "<a href='members.php?do=Activate&userid=" . $row['UserID'] . "' class='btn btn-info activate'> <i class='fa fa-close'></i>  Activate </a>";
                                         }
                               echo  "</td>";
                           echo '</tr>';
                       }
                  ?>
              </table>
+
         </div>
             <a href="?do=Add" class="btn btn-primary"> <i class="fa fa-plus"></i> New Member</a>
        </div>
 
    <?php
+   }
+     else
+     {
+            echo '<div class="container">';
+                echo '<div class="nice-message">There\'s No Member To Show</div>';
+                echo '<a href="?do=Add" class="btn btn-primary btn-lg"> <i class="fa fa-plus"></i> New Member</a>';
+            echo '</div>';
+     }
    }
    // Add Members Page
    elseif($do == 'Add')
