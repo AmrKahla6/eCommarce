@@ -15,6 +15,7 @@
         'CATEGORIES'  => 'Categories',
         'ITEMS'       => 'Item',
         'MEMBERS'     => 'Members',
+        'COMMENTS'    => 'Comments',
         'STATISTICS'  => 'Statistics',
         'LOGS'        => 'Logo',
 

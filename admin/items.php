@@ -542,7 +542,7 @@ if(isset($_SESSION['Username']))
                 $stmt->execute(array($itemid));
 
                 // Ecoh success message
-                $theMsg =  "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Activated </div>';
+                $theMsg =  "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Approved </div>';
                 redirectHome( $theMsg , 'back');
             }
             else

@@ -14,6 +14,7 @@
         <li><a href="categoies.php"><?php echo lang('CATEGORIES') ?></a></li>
         <li><a href="items.php"><?php echo lang('ITEMS') ?></a></li>
         <li><a href="Members.php?do=Manage"><?php echo lang('MEMBERS') ?></a></li>
+        <li><a href="#"><?php echo lang('COMMENTS') ?></a></li>
         <li><a href="#"><?php echo lang('STATISTICS') ?></a></li>
         <li><a href="#"><?php echo lang('LOGS') ?></a></li>
       </ul>
