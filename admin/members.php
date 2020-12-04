@@ -56,7 +56,7 @@ if(isset($_SESSION['Username']))
 
                                         if($row['RegStatus'] == 0)
                                         {
-                                            echo "<a href='members.php?do=Activate&userid=" . $row['UserID'] . "' class='btn btn-info activate'> <i class='fa fa-close'></i>  Activate </a>";
+                                            echo "<a href='members.php?do=Activate&userid=" . $row['UserID'] . "' class='btn btn-info activate'> <i class='fa fa-check'></i>   Activate </a>";
                                         }
                               echo  "</td>";
                           echo '</tr>';
