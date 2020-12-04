@@ -10,10 +10,10 @@
        include 'init.php';
     /*Start Dashboard page*/
 
-    $latestUser = 6 ; // Number of latest users
+    $latestUser     = 3 ; // Number of latest users
     $theLatestUsers = getLatest('*' , 'users' , 'UserID' , $latestUser); // Latest users array
 
-    $latestitems = 6 ; // Number of latest users
+    $latestitems    = 3 ; // Number of latest users
     $theLatestitems = getLatest('*' , 'items' , 'item_ID' , $latestitems); // Latest items array
     ?>
     <div class="container home-stats text-center">
@@ -21,31 +21,47 @@
          <div class="row">
               <div class="col-md-3">
                     <div class="stat st-members">
-                         Total Members
-                         <span> <a href="members.php"> <?php echo countItems('UserID' , 'users') ?> </a> </span>
+                        <i class="fa fa-users"></i>
+                        <div class="info">
+                            Total Members
+                            <span>
+                                <a href="members.php"> <?php echo countItems('UserID' , 'users') ?> </a>
+                            </span>
+                        </div>
                     </div>
               </div>
 
               <div class="col-md-3">
                     <div class="stat st-pending">
-                         Panding Members
-                         <span><a href="members.php?do=Manage&page=Pending">
-                                   <?php echo  checkItem("RegStatus" , "users" , 0) ?>
-                             </a></span>
+                            <i class="fa fa-user-plus"></i>
+                            <div class="info">
+                            Panding Members
+                            <span><a href="members.php?do=Manage&page=Pending">
+                                    <?php echo  checkItem("RegStatus" , "users" , 0) ?></a>
+                            </span>
+                         </div>
                     </div>
               </div>
 
               <div class="col-md-3">
                     <div class="stat st-items">
-                         Total Items
-                         <span><span> <a href="items.php"> <?php echo countItems('item_ID ' , 'items') ?> </a> </span> </span>
+                         <i class="fa fa-tag"></i>
+                         <div class="info">
+                            Total Items
+                            <span>
+                                <span> <a href="items.php"> <?php echo countItems('item_ID ' , 'items') ?> </a> </span>
+                            </span>
+                         </div>
                     </div>
               </div>
 
               <div class="col-md-3">
                     <div class="stat st-comments">
-                         Total Comments
-                         <span>200</span>
+                        <i class="fa fa-comments"></i>
+                        <div class="info">
+                            Total Comments
+                            <span>200</span>
+                        </div>
                     </div>
               </div>
          </div>
@@ -58,6 +74,9 @@
                    <div class="panel panel-default">
                         <div class="panel-heading">
                            <i class="fa fa-users"></i>Latest <?php echo $latestUser ?> Registerd Users
+                           <span class="pull-right toggle-info">
+                               <i class="fa fa-plus fa-lg"></i>
+                           </span>
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled latest-users">
@@ -89,6 +108,9 @@
                    <div class="panel panel-default">
                         <div class="panel-heading">
                            <i class="fa fa-users"></i>Latest <?php echo $latestitems ?> Items
+                            <span class="pull-right toggle-info">
+                                <i class="fa fa-plus fa-lg"></i>
+                            </span>
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled latest-users">
