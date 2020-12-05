@@ -7,11 +7,13 @@
         <link rel="stylesheet" href="<?php echo $css; ?>font-awesome.min.css">
         <link rel="stylesheet" href="<?php echo $css; ?>jquery-ui.css">
         <link rel="stylesheet" href="<?php echo $css; ?>jquery.selectBoxIt.css">
-        <link rel="stylesheet" href="<?php echo $css; ?>backend.css">
+        <link rel="stylesheet" href="<?php echo $css; ?>frontend.css">
     </head>
     <body>
     <div class="upper-bar">
-        Upper-bar
+        <div class="container">
+             Upper-bar
+        </div>
     </div>
     <nav class="navbar navbar-inverse">
   <div class="container">
@@ -30,7 +32,11 @@
                $cats = getCategory();
                foreach($cats as $cat)
                {
-                   echo '<li> <a href="categories.php?catid='. $cat['ID'] .'">'. $cat['Name'] .'</a></li>';
+                   echo '<li>
+                             <a href="categories.php?catid='. $cat['ID'] .'&pagename='. str_replace(' ' , '-', $cat['Name']) .'">
+                                  '. $cat['Name'] .'
+                             </a>
+                             </li>';
                }
           ?>
       </ul>

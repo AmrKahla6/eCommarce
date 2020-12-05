@@ -19,6 +19,24 @@ function getCategory()
     return $cats;
 }
 
+ /**
+  * Get  Items Function
+  * Function To Get Items From DB
+ */
+
+function getItem($catid)
+{
+    global $con;
+
+    $getItem = $con->prepare("SELECT * FROM items WHERE Cat_ID = ?  ORDER BY item_ID DESC");
+
+    $getItem->execute(array($catid));
+
+    $items   = $getItem->fetchAll();
+
+    return $items;
+}
+
 /**
  * Title Function
  */
