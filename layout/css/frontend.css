@@ -6,10 +6,16 @@
  .asterisk {
      font-size: 30px;
      position: absolute;
-     right: 30px;
-     top: 6px;
+     right: 10px;
+     top: 2px;
      color: #D20707;
  }
+
+ .show-pass {
+    position: relative;
+    top: -44px;
+    right: -305px;
+}
 
  .nice-message {
      padding: 10px;
@@ -66,13 +72,46 @@
 .form-control {
     position: relative;
 }
+.input-container {
+    position: relative;
+}
 
 /* End bootstrap edit*/
 
 /* Start Header Page*/
 
-
+.upper-bar{
+    padding: 10px;
+    background-color: #fff;
+}
 /* End Header Page*/
+
+/* Start Login Page*/
+
+.login-page form {
+    max-width: 300px;
+    margin: auto;
+}
+
+.login-page form input {
+    margin-bottom: 10px;
+}
+
+.login-page .selected {
+    color: #B22020;
+}
+.login-page h1 {
+    color: #2120234d;
+}
+
+.login-page h1 span{
+    cursor: pointer;
+}
+
+.login-page .signup {
+    display: none;
+}
+/* End Login Page*/
 
 /* Start Categories Page*/
 
