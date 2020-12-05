@@ -1,5 +1,24 @@
 <?php
 
+
+ /**
+  * Get  category Function
+  * Function To Get category From DB
+ */
+
+function getCategory()
+{
+    global $con;
+
+    $getCat = $con->prepare("SELECT * FROM categories ORDER BY Ordering ASC");
+
+    $getCat->execute();
+
+    $cats   = $getCat->fetchAll();
+
+    return $cats;
+}
+
 /**
  * Title Function
  */

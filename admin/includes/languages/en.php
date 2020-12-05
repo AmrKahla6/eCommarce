@@ -18,6 +18,7 @@
         'COMMENTS'    => 'Comments',
         'STATISTICS'  => 'Statistics',
         'LOGS'        => 'Logo',
+        'VISIT'       => 'Visite Shop',
 
     );
     return $lang[$phrase];

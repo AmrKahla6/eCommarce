@@ -15,6 +15,5 @@ include 'admin/connect.php';
     include $func . 'function.php';
     include $lang . 'en.php';
     include $tpl . "header.php";
-    include $tpl . "navbar.php";
 
 

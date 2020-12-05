@@ -20,6 +20,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li><a href="../index.php" target="_blank"><?php echo lang('VISIT') ?></a></li>
             <li><a href="members.php?do=Edit&userid=<?php echo $_SESSION['ID'] ?>"><?php echo lang('EDITPROFILE') ?></a></li>
             <li><a href="#"><?php echo lang('SETTING') ?></a></li>
             <li><a href="logout.php"><?php echo lang('LOGOUT') ?></a></li>
