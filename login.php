@@ -34,9 +34,9 @@
         if($count > 0)
         {
             $_SESSION['user'] = $username;
-            print_r($_SESSION['user']);
-            // header('Location: index.php');
-            // exit();
+            // print_r($_SESSION['user']);
+            header('Location: index.php');
+            exit();
         }
     }
 

@@ -1,6 +1,9 @@
-<?php include 'init.php';
- $items = getItem($_GET['catid']);
-?>
+<?php
+    $pageTitle = $_GET['pagename']." Category";
+    include 'init.php';
+    $items = getItem('Cat_ID ' , $_GET['catid']);
+ ?>
+
 
 <div class="container">
     <h1 class="text-center"> <?php echo str_replace('-' , ' ' , $_GET['pagename']) ?> </h1>

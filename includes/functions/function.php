@@ -24,17 +24,51 @@ function getCategory()
   * Function To Get Items From DB
  */
 
-function getItem($catid)
+function getItem($where , $value)
 {
     global $con;
 
-    $getItem = $con->prepare("SELECT * FROM items WHERE Cat_ID = ?  ORDER BY item_ID DESC");
+    $getItem = $con->prepare("SELECT * FROM items WHERE $where = ?  ORDER BY item_ID DESC");
 
-    $getItem->execute(array($catid));
+    $getItem->execute(array($value));
 
     $items   = $getItem->fetchAll();
 
     return $items;
+}
+
+
+ /**
+  * Get  Users Function
+  * Function To Get Users From DB
+ */
+
+function getUsers($sessionUser)
+{
+    global $con;
+
+    $getUser = $con->prepare("SELECT * FROM users WHERE Username = ?");
+
+    $getUser->execute(array($sessionUser));
+
+    $users   = $getUser->fetch();
+
+    return $users;
+}
+
+ /**
+  * Get  Comments Function
+  * Function To Get Items From DB
+ */
+
+function getComment($userid)
+{
+    global $con;
+    //Select all comments
+    $getComment = $con->prepare(" SELECT comment FROM comments WHERE user_id = ?");
+    $getComment->execute(array($userid));
+    $comments   = $getComment->fetchAll();
+    return $comments;
 }
 /**
  * Check If User is not Active
