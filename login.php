@@ -46,10 +46,14 @@
         {
             $formErrors = array();
 
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $passConf = $_POST['password-confermation'];
+            $email    = $_POST['email'];
             //Username Filter & Errors
-            if(isset($_POST['username']))
+            if(isset($username))
             {
-                $filterUser = filter_var($_POST['username'] , FILTER_SANITIZE_STRING);
+                $filterUser = filter_var($username , FILTER_SANITIZE_STRING);
                 if(strlen($filterUser) < 4)
                 {
                     $formErrors[] = 'Username Must Be Larger Than 4 Characters';
@@ -57,15 +61,15 @@
             }
 
             //Password Filter & Errors
-            if(isset($_POST['password']) && isset($_POST['password-confermation']))
+            if(isset($password) && isset($passConf))
             {
-                if(empty($_POST['password']))
+                if(empty($password))
                 {
                     $formErrors[] = 'Password Can\'t Be Null';
                 }
 
-                $pass1 =  sha1($_POST['password']);
-                $pass2 =  sha1($_POST['password-confermation']);
+                $pass1 =  sha1($password);
+                $pass2 =  sha1($passConf);
 
                 if($pass1 !== $pass2)
                 {
@@ -75,14 +79,44 @@
 
 
               //Email Filter & Errors
-              if(isset($_POST['email']))
+              if(isset($email))
               {
-                  $filterEmail = filter_var($_POST['email'] , FILTER_SANITIZE_EMAIL);
+                  $filterEmail = filter_var($email, FILTER_SANITIZE_EMAIL);
                   if(filter_var($filterEmail , FILTER_VALIDATE_EMAIL) != true)
                   {
                       $formErrors[] = 'This Email Is Not Valid';
                   }
               }
+
+
+             // Chech if no errors proceed the user add
+             if(empty($formerrors))
+             {
+                 //Check if user exsist in db
+                  $check = checkItem("Username" , "users" , $username);
+
+                  if($check == 1)
+                  {
+                      $theMsg = '<div class="alert alert-danger"> Sorry this user is exsist </div>';
+                      $formErrors[] = 'This User Is Exist';
+                  }
+                  else
+                  {
+                        // Store members in db
+                        $stmt = $con->prepare("INSERT INTO
+                                                    users(Username, Password, Email , RegStatus , Date )
+                                                    VALUES(:zuser , :zpass , :zemail , 0 , now())");
+                        $stmt->execute(array(
+                            'zuser'  => $username,
+                            'zpass'  => sha1($password),
+                            'zemail' => $email
+                        ));
+
+                        // Ecoh success message
+                        $successMsg = "Congrats You Are Now Registerd User";
+                  }
+
+            }
         }
     }
 
@@ -137,8 +171,12 @@
                 {
                     foreach($formErrors as $error)
                     {
-                        echo $error . '<br>';
+                        echo '<div class="msg error">' . $error .'</div>' ;
                     }
+                }
+                if(isset($successMsg))
+                {
+                    echo '<div class="msg success">'. $successMsg . '</div>';
                 }
              ?>
         </div>

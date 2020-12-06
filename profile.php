@@ -21,10 +21,32 @@ if(isset($_SESSION['user']))
             <div class="panel panel-primary">
                 <div class="panel-heading">My information</div>
                 <div class="panel-body">
-                Name      : <?php echo ucfirst($user['Username']) ?> <br>
-                Email     : <?php echo $user['Email'] ?><br>
-                Full Name : <?php echo $user['FullName'] ?><br>
-                Date      : <?php echo $user['Date'] ?><br>
+                    <ul class="list-unstyled">
+                        <li>
+                            <i class="fa fa-unlock-alt fa-fw"></i>
+                            <span> Login Name  </span>      : <?php echo ucfirst($user['Username']) ?>
+                        </li>
+
+                        <li>
+                            <i class="fa fa-envelope-o fa-fw"></i>
+                            <span> Email       </span>     : <?php echo $user['Email'] ?>
+                        </li>
+
+                        <li>
+                            <i class="fa fa-user fa-fw"></i>
+                            <span> Full Name   </span>     : <?php echo $user['FullName'] ?>
+                        </li>
+
+                        <li>
+                            <i class="fa fa-calendar fa-fw"></i>
+                            <span> Date        </span>      : <?php echo $user['Date'] ?>
+                        </li>
+
+                        <li>
+                            <i class="fa fa-tags fa-fw"></i>
+                            <span> Fav Category </span>      : <?php echo $user['Date'] ?>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -54,7 +76,7 @@ if(isset($_SESSION['user']))
                     }
                     else
                     {
-                        echo 'No Items';
+                        echo '<div id="showAds"> There\'s No Advertisements To Show </div>';
                     }
                 ?>
                 </div>
@@ -77,7 +99,7 @@ if(isset($_SESSION['user']))
                  }
                  else
                  {
-                     echo ' There\'s Comments To Show ' ;
+                    echo '<div id="showCom"> There\'s No Comments To Show </div>';
                  }
                 ?>
                 </div>
