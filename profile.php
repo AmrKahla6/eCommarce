@@ -7,7 +7,7 @@ $pageTitle = "Profile";
 include 'init.php';
 ?>
 
-    <h1 class="text-center"> <?php echo ucfirst($_SESSION['user']) ?> Profile</h1>
+    <h1 class="text-center"> <?php echo ucfirst($sessionUser) ?> Profile</h1>
     <div class="information block">
         <div class="container">
             <div class="panel panel-primary">
