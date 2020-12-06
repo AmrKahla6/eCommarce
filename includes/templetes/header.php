@@ -12,9 +12,27 @@
     <body>
     <div class="upper-bar">
         <div class="container">
+    <?php
+        if(isset($_SESSION['user']))
+        {
+            echo 'Welcome' .' '. $_SESSION['user'];
+
+            echo '<a href="profile.php"> My Profile </a>';
+
+            echo '<a href="logout.php"> Logout </a>';
+
+            $status = checkUserStatus($_SESSION['user']);
+
+            if($status == 1)
+            {
+                // echo 'Watting until activate your remembership';
+            }
+        }else {
+    ?>
              <a href="login.php">
                  <span class="pull-right">Login/Singup</span>
              </a>
+        <?php } ?>
         </div>
     </div>
     <nav class="navbar navbar-inverse">

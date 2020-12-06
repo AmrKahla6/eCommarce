@@ -36,6 +36,29 @@ function getItem($catid)
 
     return $items;
 }
+/**
+ * Check If User is not Active
+ * Function To Check The RegStatus of the User
+ */
+
+function checkUserStatus($user)
+{
+    global $con;
+        //Check if user exist in db
+        $stmt  = $con->prepare("SELECT
+                                     Username , RegStatus
+                                FROM
+                                    users
+                                where
+                                    Username = ?
+                                AND
+                                    RegStatus = 0");
+        $stmt->execute(array($user));
+
+        $status = $stmt->rowCount();
+
+        return $status;
+}
 
 /**
  * Title Function

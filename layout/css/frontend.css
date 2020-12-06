@@ -96,6 +96,13 @@
 .login-page form input {
     margin-bottom: 10px;
 }
+#formButton {
+    color: #337AB7;
+}
+
+#formButton2 {
+    color: #5cb85c;
+}
 
 .login-page .selected {
     color: #B22020;
@@ -130,3 +137,11 @@
  }
 
 /* End Categories Page*/
+
+/* Start Profile Page*/
+
+.information {
+    margin-top: 20px;
+}
+
+/* End Profile Page*/
