@@ -12,23 +12,25 @@
     <body>
     <div class="upper-bar">
         <div class="container">
-    <?php
-        if(isset($_SESSION['user']))
-        {
-            echo 'Welcome' .' '. $sessionUser;
+            <?php
+                if(isset($_SESSION['user']))
+                {
+                    echo 'Welcome' .' '. $sessionUser;
 
-            echo '<a href="profile.php"> My Profile </a>';
+                    echo '<a href="profile.php"> My Profile </a>';
 
-            echo '<a href="logout.php"> Logout </a>';
+                    echo '<a href="newAds.php">New Ads</a>';
 
-            $status = checkUserStatus($sessionUser);
+                    echo '<a href="logout.php"> Logout </a>';
 
-            if($status == 1)
-            {
-                // echo 'Watting until activate your remembership';
-            }
-        }else {
-    ?>
+                    $status = checkUserStatus($sessionUser);
+
+                    if($status == 1)
+                    {
+                        // echo 'Watting until activate your remembership';
+                    }
+                }else {
+            ?>
              <a href="login.php">
                  <span class="pull-right">Login/Singup</span>
              </a>

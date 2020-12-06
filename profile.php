@@ -76,7 +76,7 @@ if(isset($_SESSION['user']))
                     }
                     else
                     {
-                        echo '<div id="showAds"> There\'s No Advertisements To Show </div>';
+                        echo '<div id="showAds"> There\'s No Advertisements To Show Create <a href="newAds.php">New Ads</a> </div>';
                     }
                 ?>
                 </div>
