@@ -1,4 +1,5 @@
 <?php
+    session_start();
     $pageTitle = $_GET['pagename']." Category";
     include 'init.php';
     $items = getItem('Cat_ID ' , $_GET['catid']);
@@ -18,7 +19,7 @@
                                 echo '<small class="price-tag">$'. $item['Price'] .'</small>';
                                 echo '<img class="img-responsive" src="default.png" alt="" srcset="" width="200" height="300">';
                                 echo '<div class="caption">';
-                                     echo '<h3>'. $item['Name'] .'</h3>';
+                                     echo '<h3> <a href="items.php?itemid='. $item['item_ID'] .'">'. $item['Name'] .'</a></h3>';
                                      echo '<p>'. $item['Des'] .'</p>';
                                 echo '</div>';
                           echo '</div>';
@@ -32,4 +33,6 @@
         ?>
     </div>
 </div>
-<?php include $tpl . "footer.php";
+<?php
+include $tpl . "footer.php";
+?>

@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 session_start();
 
 $pageTitle = "Profile";
@@ -67,7 +67,7 @@ if(isset($_SESSION['user']))
                                         echo '<small class="price-tag">$'. $item['Price'] .'</small>';
                                         echo '<img class="img-responsive" src="default.png" alt="" srcset="" width="200" height="300">';
                                         echo '<div class="caption">';
-                                            echo '<h3>'. $item['Name'] .'</h3>';
+                                            echo '<h3> <a href="items.php?itemid='. $item['item_ID'] .'">'. $item['Name'] .'</a> </h3>';
                                             echo '<p>'. $item['Des'] .'</p>';
                                             echo '<div class="date">'. $item['Add_Date'] .'</div>';
                                         echo '</div>';
@@ -116,3 +116,6 @@ else
     exit();
 }
 include $tpl . "footer.php";
+ob_end_flush();
+
+?>

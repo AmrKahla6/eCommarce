@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 session_start();
 
 $pageTitle = "New Item";
@@ -202,5 +202,6 @@ else
     header('Location: login.php');
     exit();
 }
-include $tpl . "footer.php"
+include $tpl . "footer.php";
+ob_end_flush();
 ?>
