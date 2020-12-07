@@ -48,6 +48,32 @@ if(isset($_SESSION['user']))
             $formErrors[] = 'Item Category Can\'t Be Empty';
         }
 
+         // Chech if no errors
+         if(empty($formerrors))
+         {
+                    // Store members in db
+                    $stmt = $con->prepare("INSERT INTO
+                                                items(Name, Des, Price, Add_Date , Country_Made , Status , User_ID , Cat_ID)
+                                                VALUES(:zname , :zdes , :zprice , now() , :zcountry , :zstatus , :zuser , :zcat)");
+                    $stmt->execute(array(
+                        'zname'     => $name,
+                        'zdes'      => $des,
+                        'zprice'    => $price,
+                        'zcountry'  => $country,
+                        'zstatus'   => $status,
+                        'zuser'     => $_SESSION['uid'],
+                        'zcat'      => $cat,
+                    ));
+                    if($stmt)
+                    {
+                        // Ecoh success message
+                        echo "<div class='alert alert-success text-center'>" . $stmt->rowCount() . ' Record Store </div>';
+                    }
+                    else {
+                        echo "<div class='alert alert-danger text-center'>Record Error </div>";
+                    }
+        }
+
     }
 ?>
 

@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     session_start();
 
     $noNavbar  = "";
@@ -62,4 +63,7 @@
       <input class="form-control input-lg" type="password" name="pass" placeholder="Password" autocomplete="new-password"/>
       <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
   </form>
-<?php include $tpl . "footer.php"; ?>
+<?php
+    include $tpl . "footer.php";
+    ob_end_flush();
+?>

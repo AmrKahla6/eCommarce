@@ -2,7 +2,7 @@
 
 session_start();
 
-$pageTitle = "Profile";
+$pageTitle = "Show Items";
 
 include 'init.php';
 if(isset($_SESSION['user']))
@@ -15,7 +15,7 @@ if(isset($_SESSION['user']))
     $comments = getComment($user['UserID']);
 ?>
 
-    <h1 class="text-center"> <?php echo ucfirst($sessionUser) ?> Profile</h1>
+    <h1 class="text-center"> Show Items </h1>
     <div class="information block">
         <div class="container">
             <div class="panel panel-primary">

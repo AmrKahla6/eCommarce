@@ -23,7 +23,7 @@
 
             //Check if user exist in db
             $stmt  = $con->prepare("SELECT
-                                        Username , Password
+                                        UserID , Username , Password
                                     FROM
                                         users
                                     where
@@ -32,12 +32,15 @@
                                         Password = ?");
             $stmt->execute(array($username , $hashedPass));
 
+            $get = $stmt->fetch();
             //if count > 0 this mean the db contain record about this username
             $count = $stmt->rowCount(); // exist or not
             if($count > 0)
             {
                 $_SESSION['user'] = $username;
                 // print_r($_SESSION['user']);
+                $_SESSION['uid']  = $get['UserID']; // Regestier User ID
+
                 header('Location: index.php');
                 exit();
             }
