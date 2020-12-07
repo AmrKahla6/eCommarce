@@ -10,7 +10,7 @@ if(isset($_SESSION['user']))
 
     $user     = getUsers($sessionUser);
 
-    $items    = getItem('User_ID' , $user['UserID']);
+    $items    = getItem('User_ID' ,$user['UserID'] , 1);
 
     $comments = getComment($user['UserID']);
 ?>
@@ -64,6 +64,10 @@ if(isset($_SESSION['user']))
                         {
                             echo '<div class="col-sm-6 col-md-3">' ;
                                 echo '<div class="thumbnail item-box">';
+                                        if($item['Approve'] == 0 )
+                                        {
+                                            echo '<span class="approve-status"> Watting Approve </span>';
+                                        }
                                         echo '<small class="price-tag">$'. $item['Price'] .'</small>';
                                         echo '<img class="img-responsive" src="default.png" alt="" srcset="" width="200" height="300">';
                                         echo '<div class="caption">';

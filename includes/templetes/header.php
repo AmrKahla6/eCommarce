@@ -19,7 +19,7 @@
 
                     echo '<a href="profile.php"> My Profile </a>';
 
-                    echo '<a href="newAds.php">New Ads</a>';
+                    echo '<a href="newAds.php">New Item</a>';
 
                     echo '<a href="logout.php"> Logout </a>';
 

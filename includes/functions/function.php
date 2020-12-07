@@ -20,15 +20,22 @@ function getCategory()
 }
 
  /**
-  * Get  Items Function
-  * Function To Get Items From DB
+  * Get ADs Items Function
+  * Function To Get ADs Items From DB
  */
 
-function getItem($where , $value)
+function getItem($where , $value , $approve = NULL)
 {
     global $con;
 
-    $getItem = $con->prepare("SELECT * FROM items WHERE $where = ?  ORDER BY item_ID DESC");
+    if($approve == NULL)
+    {
+        $sql = 'AND Approve = 1';
+    }else{
+        $sql = NULL;
+    }
+
+    $getItem = $con->prepare("SELECT * FROM items WHERE $where = ?  $sql ORDER BY item_ID DESC");
 
     $getItem->execute(array($value));
 

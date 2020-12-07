@@ -22,7 +22,9 @@
                                 ON
                                      users.UserID  = items.User_ID
                                 where
-                                     item_ID = ?");
+                                     item_ID = ?
+                                AND
+                                    Approve = 1");
 
       // Execute Query
       $stmt->execute(array($itemid));
@@ -175,7 +177,9 @@
       }
       else
       {
-        echo "<div class='alert alert-danger text-center'> This Item Is Not Exsist </div>";
+          echo'<div class="container">';
+                echo "<div class='alert alert-danger text-center'> This Item Is Not Exsist Or Item Watting To Approval </div>";
+          echo'</div>';
       }
     include $tpl . "footer.php";
     ob_end_flush();
