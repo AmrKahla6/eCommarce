@@ -93,7 +93,7 @@
                        {
                            $comment = filter_var($_POST['comment'] , FILTER_SANITIZE_STRING);
                            $itemid  = $item['item_ID'];
-                           $userid  = $item['User_ID'];
+                           $userid  = $_SESSION['uid'];
 
                            if(!empty($comment))
                            {
@@ -127,11 +127,41 @@
        }
 ?>
          <hr class="custom-hr">
+         <?php
+                    //Select all comments
+                    $stmt = $con->prepare("SELECT
+                                                comments.* , users.Username AS User_Name
+                                            FROM
+                                                comments
+                                            INNER JOIN
+                                                users
+                                            ON
+                                                users.UserID = comments.user_id
+                                            WHERE
+                                                item_id = ?
+                                            AND
+                                                status = 1
+                                            ORDER BY
+                                                comment_id DESC");
 
-         <div class="row">
-             <div class="col-md-3">User Image</div>
-             <div class="col-md-9">User Comment</div>
-         </div>
+
+                $stmt->execute(array($item['item_ID']));
+                $comments = $stmt->fetchAll();
+                if($comments)
+                {
+                    foreach($comments as $comment)
+                    {
+                    echo '<div class="row">'  ;
+                        echo '<div class="col-md-3">' . $comment['User_Name'] .'</div>';
+                        echo '<div class="col-md-9">' . $comment['comment']  . '</div>';
+                    echo '</div>';
+                    }
+                }
+                else
+                {
+                    echo 'No Comments';
+                }
+        ?>
     </div>
 <?php
       }
