@@ -150,12 +150,20 @@
                 if($comments)
                 {
                     foreach($comments as $comment)
-                    {
-                    echo '<div class="row">'  ;
-                        echo '<div class="col-md-3">' . $comment['User_Name'] .'</div>';
-                        echo '<div class="col-md-9">' . $comment['comment']  . '</div>';
-                    echo '</div>';
-                    }
+                    {?>
+                    <div class="comment-box">
+                        <div class="row">
+                            <div class="col-sm-2 text-center">
+                                <img class="img-responsive img-thumbnail img-circle center-block" src="default.png" alt="" srcset="" width="200" height="300">
+                                <?php echo $comment['User_Name'] ?>
+                            </div>
+                            <div class="col-sm-10">
+                                <p class="lead"><?php echo $comment['comment']?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="custom-hr">
+                    <?php }
                 }
                 else
                 {
