@@ -6,6 +6,8 @@ session_start();
 
 $pageTitle = "Categories";
 
+
+
 if(isset($_SESSION['Username']))
 {
     include 'init.php';
@@ -116,8 +118,26 @@ if(isset($_SESSION['Username']))
                         <div class="col-sm-10 col-md-6">
                             <input type="text" name="ordering" class="form-control" placeholder="Number To Arrange The Category">
                         </div>
+                </div>
+                <!-- End Ordering Faild -->
+
+                <!-- Start Perant Faild -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Perant ? </label>
+                    <div class="col-sm-10 col-md-6">
+                        <select name="parent" id="">
+                            <option value="0">None</option> <!-- Main Category -->
+                        <?php
+                            $cats = getAllFrom("*" , "categories" , "WHERE Parent = 0" , "" , "Ordering");
+                            foreach($cats as $cat)
+                            {
+                                echo "<option value='". $cat['ID'] ."'>" . $cat['Name'] . "</option>";
+                            }
+                        ?>
+                        </select>
                     </div>
-                    <!-- End Ordering Faild -->
+                </div>
+                <!-- End Perant Faild -->
 
                     <!-- Start Visibilty Faild -->
                     <div class="form-group form-group-lg">
@@ -191,6 +211,7 @@ if(isset($_SESSION['Username']))
             // Get varabiles from form
             $name     = $_POST['name'];
             $desc     = $_POST['des'];
+            $parent   = $_POST['parent'];
             $order    = $_POST['ordering'];
             $visible  = $_POST['visibilty'];
             $comment  = $_POST['commenting'];
@@ -210,11 +231,12 @@ if(isset($_SESSION['Username']))
 
                     // Store Category in db
                     $stmt = $con->prepare("INSERT INTO
-                                                categories(Name, Des, Ordering, Visibilty , Allow_Comment , Allow_Ads )
-                                                VALUES(:zname , :zdes , :zorder , :zvisible , :zcomment , :zads)");
+                                                categories(Name, Des, Parent, Ordering, Visibilty , Allow_Comment , Allow_Ads )
+                                                VALUES(:zname , :zdes , :zparent , :zorder , :zvisible , :zcomment , :zads)");
                     $stmt->execute(array(
                         'zname'     => $name,
                         'zdes'      => $desc,
+                        'zparent'   => $parent,
                         'zorder'    => $order,
                         'zvisible'  => $visible,
                         'zcomment'  => $comment,
@@ -278,28 +300,40 @@ if(isset($_SESSION['Username']))
 
                 <!-- Start Ordering Faild -->
                 <div class="form-group form-group-lg">
-                        <label class="col-sm-2 control-label">Ordering</label>
-                        <div class="col-sm-10 col-md-6">
-                            <input type="text" name="ordering" class="form-control" placeholder="Number To Arrange The Category" value="<?php echo $cat['Ordering']; ?>">
+                    <label class="col-sm-2 control-label">Ordering</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input type="text" name="ordering" class="form-control" placeholder="Number To Arrange The Category" value="<?php echo $cat['Ordering']; ?>">
+                    </div>
+                </div>
+                <!-- End Ordering Faild -->
+
+                 <!-- Start Perant Faild -->
+                 <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Perant ? </label>
+                    <div class="col-sm-10 col-md-6">
+                        <select name="parent" id="">
+                            <option value="0">None</option> <!-- Main Category -->
+                            <option value="<?php echo $cat['ID'] ?>"><?php echo $cats ?></option>
+                        </select>
+                    </div>
+                </div>
+                <!-- End Perant Faild -->
+
+                <!-- Start Visibilty Faild -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Visible</label>
+                    <div class="col-sm-10 col-md-6">
+                        <div>
+                            <input id="visible-yes"  type="radio" name="visibilty" value="0" <?php if($cat['Visibilty'] == 0){ echo 'checked'; } ?> >
+                            <label for="visible-yes">Yes</label>
+                        </div>
+
+                        <div>
+                            <input id="visible-no" type="radio" name="visibilty" value="1" <?php if($cat['Visibilty'] == 1){ echo 'checked'; } ?> >
+                            <label for="visible-no">No</label>
                         </div>
                     </div>
-                    <!-- End Ordering Faild -->
-
-                    <!-- Start Visibilty Faild -->
-                    <div class="form-group form-group-lg">
-                        <label class="col-sm-2 control-label">Visible</label>
-                        <div class="col-sm-10 col-md-6">
-                            <div>
-                                <input id="visible-yes"  type="radio" name="visibilty" value="0" <?php if($cat['Visibilty'] == 0){ echo 'checked'; } ?> >
-                                <label for="visible-yes">Yes</label>
-                            </div>
-
-                            <div>
-                                <input id="visible-no" type="radio" name="visibilty" value="1" <?php if($cat['Visibilty'] == 1){ echo 'checked'; } ?> >
-                                <label for="visible-no">No</label>
-                            </div>
-                        </div>
-                    </div>
+                </div>
                 <!-- End Visibilty Faild -->
 
                    <!-- Start Allow_Comment Faild -->

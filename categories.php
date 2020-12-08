@@ -2,7 +2,7 @@
     session_start();
     $pageTitle = $_GET['pagename']." Category";
     include 'init.php';
-    $items = getItem('Cat_ID ' , $_GET['catid']);
+    $items = getAllFrom('*' , 'items' , "WHERE Cat_ID = {$_GET['catid']}"  , "AND Approve = 1" , "item_ID");
  ?>
 
 

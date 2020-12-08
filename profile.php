@@ -10,9 +10,9 @@ if(isset($_SESSION['user']))
 
     $user     = getUsers($sessionUser);
 
-    $items    = getItem('User_ID' ,$user['UserID'] , 1);
+    $items    = getAllFrom("*" , "items", "WHERE User_ID = {$user['UserID']}", "" , "item_ID");
 
-    $comments = getComment($user['UserID']);
+    $comments = getAllFrom("comment" , "comments" , "WHERE user_id = {$user['UserID']}" , "" , "comment_id");
 ?>
 
     <h1 class="text-center"> <?php echo ucfirst($sessionUser) ?> Profile</h1>

@@ -57,7 +57,7 @@
     <div class="collapse navbar-collapse" id="app-nav">
       <ul class="nav navbar-nav navbar-right">
           <?php
-               $cats = getCategory();
+               $cats = getAllFrom('*' , 'categories' , 'WHERE Parent = 0' , NULL , 'Ordering' , 'ASC');
                foreach($cats as $cat)
                {
                    echo '<li>

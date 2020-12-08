@@ -6,60 +6,17 @@
   * Function To Get All table From DB
  */
 
-function getAllFrom($tableName , $where = null , $order = NULL)
+function getAllFrom($field , $table , $where = null , $and = NULL , $orderField , $order = "DESC")
 {
     global $con;
 
-    $getAll = $con->prepare("SELECT * FROM $tableName $where $order");
+    $getAll = $con->prepare("SELECT $field FROM $table $where $and ORDER BY $orderField $order");
 
     $getAll->execute();
 
     $allTable   = $getAll->fetchAll();
 
     return $allTable;
-}
-
- /**
-  * Get  category Function
-  * Function To Get category From DB
- */
-
-function getCategory()
-{
-    global $con;
-
-    $getCat = $con->prepare("SELECT * FROM categories ORDER BY Ordering ASC");
-
-    $getCat->execute();
-
-    $cats   = $getCat->fetchAll();
-
-    return $cats;
-}
-
- /**
-  * Get ADs Items Function
-  * Function To Get ADs Items From DB
- */
-
-function getItem($where , $value , $approve = NULL)
-{
-    global $con;
-
-    if($approve == NULL)
-    {
-        $sql = 'AND Approve = 1';
-    }else{
-        $sql = NULL;
-    }
-
-    $getItem = $con->prepare("SELECT * FROM items WHERE $where = ?  $sql ORDER BY item_ID DESC");
-
-    $getItem->execute(array($value));
-
-    $items   = $getItem->fetchAll();
-
-    return $items;
 }
 
 
@@ -81,20 +38,6 @@ function getUsers($sessionUser)
     return $users;
 }
 
- /**
-  * Get  Comments Function
-  * Function To Get Items From DB
- */
-
-function getComment($userid)
-{
-    global $con;
-    //Select all comments
-    $getComment = $con->prepare(" SELECT comment FROM comments WHERE user_id = ?");
-    $getComment->execute(array($userid));
-    $comments   = $getComment->fetchAll();
-    return $comments;
-}
 /**
  * Check If User is not Active
  * Function To Check The RegStatus of the User

@@ -146,7 +146,7 @@ if(isset($_SESSION['user']))
                                         <select name="category" required>
                                             <option value="">Choose Category</option>
                                             <?php
-                                                    $categories = getAllFrom('categories');
+                                                    $categories = getAllFrom('*' , 'categories' , NULL , NULL , 'ID');
                                                     foreach($categories as $category)
                                                     {
                                                         echo "<option value='" . $category['ID'] . "'>" . $category['Name'] . "</option>";

@@ -1,5 +1,24 @@
 <?php
 
+ /**
+  * Get  All Function
+  * Function To Get All table From DB
+ */
+
+function getAllFrom($field , $table , $where = null , $and = NULL , $orderField , $order = "DESC")
+{
+    global $con;
+
+    $getAll = $con->prepare("SELECT $field FROM $table $where $and ORDER BY $orderField $order");
+
+    $getAll->execute();
+
+    $allTable   = $getAll->fetchAll();
+
+    return $allTable;
+}
+
+
 /**
  * Title Function
  */

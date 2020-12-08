@@ -10,7 +10,7 @@ include 'init.php';
 <div class="container">
     <div class="row">
         <?php
-             $Allitems = getAllFrom('items ' , 'WHERE Approve = 1' , 'ORDER BY item_ID DESC');
+             $Allitems = getAllFrom('*' , 'items ' , 'WHERE Approve = 1' , NULL , 'item_ID');
 
             if(!empty($Allitems))
             {
