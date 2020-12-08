@@ -227,6 +227,10 @@
     color: #AAA;
     font-weight: bold;
 }
+
+.information .btn {
+    margin-top: 10px;
+}
 /* End Profile Page*/
 
 /* Start Items Page*/

@@ -88,9 +88,10 @@ if(isset($_SESSION['user']))
                             <form class="form-horizontal main-form" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
                                 <!-- Start Name Faild -->
                                 <div class="form-group form-group-lg">
-                                    <label class="col-sm-3 control-label">Name</label>
+                                    <label pattern=".{3,}" title="This Field Required At Least 3 Characters"
+                                          class="col-sm-3 control-label">Name</label>
                                     <div class="col-sm-10 col-md-9">
-                                        <input type="text" name="name" class="form-control live-name" placeholder="Item Name" >
+                                        <input type="text" name="name" class="form-control live-name" placeholder="Item Name" required>
                                     </div>
                                 </div>
                                 <!-- End Name Faild -->
@@ -99,7 +100,8 @@ if(isset($_SESSION['user']))
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-3 control-label">Description</label>
                                     <div class="col-sm-10 col-md-9">
-                                        <input type="text" name="des" class="form-control live-des" placeholder="Add Description" >
+                                        <input pattern=".{10,}" title="This Field Required At Least 10 Characters"
+                                               type="text" name="des" class="form-control live-des" placeholder="Add Description" required>
                                     </div>
                                 </div>
                                 <!-- End Description Faild -->
@@ -108,7 +110,7 @@ if(isset($_SESSION['user']))
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-3 control-label">Price</label>
                                     <div class="col-sm-10 col-md-9">
-                                        <input type="text" name="price" class="form-control live-price" placeholder="Add Price to Item" >
+                                        <input type="text" name="price" class="form-control live-price" placeholder="Add Price to Item" required>
                                     </div>
                                 </div>
                                 <!-- End Price Faild -->
@@ -117,7 +119,7 @@ if(isset($_SESSION['user']))
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-3 control-label">Country</label>
                                     <div class="col-sm-10 col-md-9">
-                                        <input type="text" name="country" class="form-control" placeholder="Add Country Made From" >
+                                        <input type="text" name="country" class="form-control" placeholder="Add Country Made From" required>
                                     </div>
                                 </div>
                                 <!-- End Country_Made Faild -->
@@ -126,8 +128,8 @@ if(isset($_SESSION['user']))
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-3 control-label">Status</label>
                                     <div class="col-sm-10 col-md-9">
-                                        <select name="status">
-                                            <option value="0">Choose Status</option>
+                                        <select name="status" required>
+                                            <option value="">Choose Status</option>
                                             <option value="1"> New      </option>
                                             <option value="2"> Like New </option>
                                             <option value="3"> Used     </option>
@@ -141,13 +143,10 @@ if(isset($_SESSION['user']))
                                 <div class="form-group form-group-lg">
                                     <label class="col-sm-3 control-label">Category</label>
                                     <div class="col-sm-10 col-md-9">
-                                        <select name="category">
-                                            <option value="0">Choose Category</option>
+                                        <select name="category" required>
+                                            <option value="">Choose Category</option>
                                             <?php
-                                                    $stmt = $con->prepare("SELECT * FROM categories");
-                                                    $stmt->execute();
-                                                    $categories = $stmt->fetchAll();
-
+                                                    $categories = getAllFrom('categories');
                                                     foreach($categories as $category)
                                                     {
                                                         echo "<option value='" . $category['ID'] . "'>" . $category['Name'] . "</option>";

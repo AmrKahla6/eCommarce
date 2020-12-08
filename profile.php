@@ -47,6 +47,7 @@ if(isset($_SESSION['user']))
                             <span> Fav Category </span>      : <?php echo $user['Date'] ?>
                         </li>
                     </ul>
+                    <a href="#" class="btn btn-default">Edit information</a>
                 </div>
             </div>
         </div>

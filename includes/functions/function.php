@@ -2,6 +2,24 @@
 
 
  /**
+  * Get  All Function
+  * Function To Get All table From DB
+ */
+
+function getAllFrom($tableName , $where = null , $order = NULL)
+{
+    global $con;
+
+    $getAll = $con->prepare("SELECT * FROM $tableName $where $order");
+
+    $getAll->execute();
+
+    $allTable   = $getAll->fetchAll();
+
+    return $allTable;
+}
+
+ /**
   * Get  category Function
   * Function To Get category From DB
  */

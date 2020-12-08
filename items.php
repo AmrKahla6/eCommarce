@@ -87,7 +87,7 @@
                  <div class="add-comment">
                     <h3>Add Your Comment</h3>
                     <form action="<?php echo $_SERVER['PHP_SELF'] . '?itemid='.$item['item_ID']?>" method="POST">
-                        <textarea name="comment" id=""></textarea>
+                        <textarea name="comment" id="" required></textarea>
                         <input class="btn btn-primary" type="submit" value="Add Comment">
                     </form>
                     <?php
