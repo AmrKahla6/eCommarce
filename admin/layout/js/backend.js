@@ -20,7 +20,7 @@
           theme: "jqueryui",
 
          // Hides the first select box option from appearing when the drop down is opened
-         showFirstOption: false,
+         showFirstOption: true,
          // Hides the currently selected option from appearing when the drop down is opened
          hideCurrent: true
      });
@@ -72,5 +72,14 @@
         {
             $('.cat .full-view').fadeOut(200);
         }
+     });
+
+     //Show Delete Button On Child Cats
+     $('.child-link').hover(function ()
+     {
+        $(this).find('.show-delete').fadeIn(500);
+     }, function()
+     {
+        $(this).find('.show-delete').fadeOut(300);
      });
  });

@@ -303,7 +303,7 @@ label {
     margin-right: 5px;
 }
 
-.categories .cat h3 {
+.categories .cat h3{
     margin: 0;
     cursor: pointer;
     font-weight: bold;
@@ -345,5 +345,30 @@ label {
 .categories .add-category {
     margin-bottom: 30px;
     margin-top: -10px;
+}
+
+.categories .child-head {
+    margin: 15px  0 10px;
+    font-weight: bold;
+    font-weight: 16px;
+    color: #22ab79;
+}
+
+.categories .child-cats {
+    margin: 0;
+}
+
+.categories .child-cats li {
+    margin-left: 15px;
+}
+
+.categories .child-cats li:before{
+    content: "-";
+
+}
+
+.categories .show-delete {
+    color: #F00;
+    display: none;
 }
 /* End Category Page*/

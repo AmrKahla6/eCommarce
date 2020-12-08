@@ -25,18 +25,15 @@ if(isset($_SESSION['Username']))
            $sort = $_GET['sort'];
        }
 
-       $stmt2 = $con->prepare("SELECT * FROM categories ORDER BY Ordering $sort");
-
-       $stmt2->execute();
-
-       $cats = $stmt2->fetchAll(); ?>
+       $cats = getAllFrom("*" , "categories" , "WHERE Parent = 0" , "" , "Ordering" , $sort)
+       ?>
 
         <h1 class="text-center">Manage Categories</h1>
         <?php  if(!empty($cats)) {?>
         <div class="container categories">
              <div class="panel panel-default">
                    <div class="panel-heading">
-                       <i class="fa fa-edit"></i> Manage Categories
+                       <i class="fa fa-edit"></i> Main Categories
                        <div class="option pull-right">
                            <i class="fa fa-sort"></i> Ordering: [
                            <a class=" <?php if($sort == 'ASC')  { echo 'active' ; } ?> "  href="?sort=ASC">Asc</a> |
@@ -69,9 +66,31 @@ if(isset($_SESSION['Username']))
                                         if($cat['Allow_Comment'] == 1){ echo  "<span class='commenting'> <i class='fa fa-close'></i> Comment Disabled</span>";}
 
                                         if($cat['Allow_Ads'] == 1){ echo  "<span class='advertises'> <i class='fa fa-close'></i> Ads Disabled</span>";}
+                                             //Get Chiled Category
+                                            $childCats = getAllFrom('*' , 'categories' , "WHERE Parent = {$cat['ID']}" , "" , 'Ordering' , 'ASC');
+                                            if($childCats)
+                                            {
+                                                    echo "<h4 class='child-head'>Child Categies</h4>";
+                                                    echo '<ul class="list-unstyled child-cats">';
+                                                foreach($childCats as $child)
+                                                {
+                                                            echo  " <li class='child-link'>
+                                                                         <a href='?do=Edit&catid=". $child['ID'] ."'>" . $child['Name'] . "</a>
+                                                                         <a href='?do=Delete&catid=". $child['ID'] ."' class='show-delete confirm'> Delete </a>
+                                                                    </li>" ;
+                                                }
+                                                        echo '</ul>';
+                                            }
+                                            else
+                                            {
+                                                    echo  '<h6 class="child-head"> No Child Category</h6>';
+                                            }
 
                                     echo "</div>";
                                echo "</div>";
+
+
+
                                echo "<hr>";
                            }
                         ?>
@@ -307,13 +326,22 @@ if(isset($_SESSION['Username']))
                 </div>
                 <!-- End Ordering Faild -->
 
-                 <!-- Start Perant Faild -->
-                 <div class="form-group form-group-lg">
-                    <label class="col-sm-2 control-label">Perant ? </label>
+
+                <!-- Start Perant Faild -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Perant ?</label>
                     <div class="col-sm-10 col-md-6">
-                        <select name="parent" id="">
+                        <select name="parent" id=""?>"
                             <option value="0">None</option> <!-- Main Category -->
-                            <option value="<?php echo $cat['ID'] ?>"><?php echo $cats ?></option>
+                        <?php
+                            $cats = getAllFrom("*" , "categories" , "WHERE Parent = 0" , "" , "Ordering");
+                            foreach($cats as $c)
+                            {
+                                echo "<option value='". $c['ID'] ."'";
+                                if($cat['Parent'] == $c['ID']) {echo 'Selected';}
+                                echo ">" . $c['Name'] . "</option>";
+                            }
+                        ?>
                         </select>
                     </div>
                 </div>
@@ -373,7 +401,7 @@ if(isset($_SESSION['Username']))
                 <!-- Start submit Faild -->
                     <div class="form-group form-group-lg">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <input type="submit" value="Add Category" class="btn btn-primary btn-lg">
+                            <input type="submit" value="Update Category" class="btn btn-primary btn-lg">
                         </div>
                     </div>
                 <!-- End submit Faild -->
@@ -389,7 +417,7 @@ if(isset($_SESSION['Username']))
             redirectHome($theMsg);
             echo "</div>";
         }
-   }
+    }
     elseif($do == 'Update')
     {// Update Page
         echo '<h1 class="text-center">Update Category</h1>';
@@ -400,6 +428,7 @@ if(isset($_SESSION['Username']))
             $id       = $_POST['catid'];
             $name     = $_POST['name'];
             $des      = $_POST['des'];
+            $parent   = $_POST['parent'];
             $order    = $_POST['ordering'];
             $visible  = $_POST['visibilty'];
             $comment  = $_POST['commenting'];
@@ -411,13 +440,14 @@ if(isset($_SESSION['Username']))
                                     SET
                                         Name          = ? ,
                                         Des           = ? ,
+                                        Parent        = ? ,
                                         Ordering      = ? ,
                                         Visibilty     = ? ,
                                         Allow_Comment = ? ,
                                         Allow_Ads     = ?
                                     WHERE
                                         ID            = ?");
-            $stmt->execute(array($name , $des , $order , $visible , $comment , $ads , $id));
+            $stmt->execute(array($name , $des , $parent , $order , $visible , $comment , $ads , $id));
 
             // Ecoh success message
             $theMsg =  "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Updated </div>';
