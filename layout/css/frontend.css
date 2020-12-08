@@ -93,6 +93,11 @@
     padding: 10px;
     background-color: #fff;
 }
+
+.my-img{
+    width: 32px;
+    height: 32px;
+}
 /* End Header Page*/
 
 /* Start Login Page*/

@@ -14,15 +14,21 @@
         <div class="container">
             <?php
                 if(isset($_SESSION['user']))
-                {
-                    echo 'Welcome' .' '. $sessionUser;
-
-                    echo '<a href="profile.php"> My Profile </a>';
-
-                    echo '<a href="newAds.php">New Item</a>';
-
-                    echo '<a href="logout.php"> Logout </a>';
-
+                {?>
+                    <img class="img-thumbnail img-circle my-img" src="default.png">
+                    <div class="btn-group my-info">
+                        <span class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <?php echo $sessionUser ?>
+                            <span class="caret"></span>
+                        </span>
+                            <ul class="dropdown-menu">
+                                <li>  <a href="profile.php"> My Profile </a> </li>
+                                <li>  <a href="newAds.php"> New Item </a> </li>
+                                <li>  <a href="profile.php#my-ads"> My Items </a> </li>
+                                <li>  <a href="logout.php"> Logout </a> </li>
+                            </ul>
+                    </div>
+                <?php
                     $status = checkUserStatus($sessionUser);
 
                     if($status == 1)
