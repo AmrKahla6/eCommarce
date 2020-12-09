@@ -144,15 +144,13 @@ if(isset($_SESSION['Username']))
                 <!-- End Status Faild -->
 
                   <!-- Start Users Faild -->
-                  <div class="form-group form-group-lg">
+                <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Member</label>
                     <div class="col-sm-10 col-md-6">
                         <select name="member">
                                <option value="0">Choose Member</option>
                                <?php
-                                    $stmt = $con->prepare("SELECT * FROM users");
-                                    $stmt->execute();
-                                    $users = $stmt->fetchAll();
+                                    $users = getAllFrom("*", "users" , NULL , null , "UserID");
 
                                     foreach($users as $user)
                                     {
@@ -165,15 +163,13 @@ if(isset($_SESSION['Username']))
                 <!-- End Users Faild -->
 
                   <!-- Start Category Faild -->
-                  <div class="form-group form-group-lg">
+                <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-10 col-md-6">
                         <select name="category">
                                <option value="0">Choose Category</option>
                                <?php
-                                    $stmt = $con->prepare("SELECT * FROM categories");
-                                    $stmt->execute();
-                                    $categories = $stmt->fetchAll();
+                                    $categories = getAllFrom("*" , "categories" , "WHERE Parent != 0" , "" , "Ordering");
 
                                     foreach($categories as $category)
                                     {
@@ -184,6 +180,15 @@ if(isset($_SESSION['Username']))
                     </div>
                 </div>
                 <!-- End Category Faild -->
+
+                 <!-- Start Tags Faild -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Tags</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input type="text" name="tag" class="form-control" placeholder="Separate Tags With Comma (,)">
+                    </div>
+                </div>
+                <!-- End Tags Faild -->
 
                   <!-- Start submit Faild -->
                 <div class="form-group form-group-lg">
@@ -212,6 +217,7 @@ if(isset($_SESSION['Username']))
             $status     = $_POST['status'];
             $member     = $_POST['member'];
             $cat        = $_POST['category'];
+            $tag        = $_POST['tag'];
              //Validate the form
              $formerrors = array();
 
@@ -258,8 +264,8 @@ if(isset($_SESSION['Username']))
              {
                         // Store members in db
                         $stmt = $con->prepare("INSERT INTO
-                                                    items(Name, Des, Price, Add_Date , Country_Made , Status , User_ID , Cat_ID)
-                                                    VALUES(:zname , :zdes , :zprice , now() , :zcountry , :zstatus , :zuser , :zcat)");
+                                                    items(Name, Des, Price, Add_Date , Country_Made , Status , User_ID , Cat_ID , Tag)
+                                                    VALUES(:zname , :zdes , :zprice , now() , :zcountry , :zstatus , :zuser , :zcat , :ztag)");
                         $stmt->execute(array(
                             'zname'     => $name,
                             'zdes'      => $des,
@@ -268,6 +274,7 @@ if(isset($_SESSION['Username']))
                             'zstatus'   => $status,
                             'zuser'     => $member,
                             'zcat'      => $cat,
+                            'ztag'      => $tag
                         ));
 
                         // Ecoh success message
@@ -381,16 +388,13 @@ if(isset($_SESSION['Username']))
                 <!-- End Users Faild -->
 
                   <!-- Start Category Faild -->
-                  <div class="form-group form-group-lg">
+                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-10 col-md-6">
                         <select name="category">
                                <option value="0">Choose Category</option>
                                <?php
-                                    $stmt = $con->prepare("SELECT * FROM categories");
-                                    $stmt->execute();
-                                    $categories = $stmt->fetchAll();
-
+                                    $categories = getAllFrom("*" , "categories" , "WHERE Parent != 0" , "" , "Ordering" );
                                     foreach($categories as $category)
                                     {
                                         echo "<option value='" . $category['ID'] . "'";
@@ -400,8 +404,17 @@ if(isset($_SESSION['Username']))
                                 ?>
                         </select>
                     </div>
-                </div>
+                 </div>
                 <!-- End Category Faild -->
+
+                  <!-- Start Tags Faild -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Tags</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input type="text" name="tag" class="form-control" value="<?php echo $item['Tag'] ?>" placeholder="Separate Tags With Comma (,)">
+                    </div>
+                </div>
+                <!-- End Tags Faild -->
 
 
                     <!-- Start submit Faild -->
@@ -469,7 +482,7 @@ if(isset($_SESSION['Username']))
             redirectHome($theMsg);
             echo "</div>";
         }
-   }
+    }
     elseif($do == 'Update')
    {// Update Page
     echo '<h1 class="text-center">Update Category</h1>';
@@ -485,6 +498,7 @@ if(isset($_SESSION['Username']))
         $status   = $_POST['status'];
         $cat      = $_POST['category'];
         $member   = $_POST['member'];
+        $tag      = $_POST['tag'];
 
          //Validate the form
          $formerrors = array();
@@ -540,10 +554,11 @@ if(isset($_SESSION['Username']))
                             Country_Made  = ? ,
                             Status        = ? ,
                             Cat_ID        = ? ,
-                            User_ID       = ?
+                            User_ID       = ?,
+                            Tag           = ?
                         WHERE
                             item_ID       = ?");
-                    $stmt->execute(array($name , $des , $price , $country , $status , $cat , $member , $id));
+                    $stmt->execute(array($name , $des , $price , $country , $status , $cat , $member , $tag , $id));
                     // Ecoh success message
                     $theMsg = "<div class='alert alert-success'>" . $stmt->rowCount() . ' Record Store </div>';
                     redirectHome($theMsg , 'back');
@@ -565,7 +580,7 @@ if(isset($_SESSION['Username']))
         redirectHome($theMsg);
     }
     echo "</div>";
-}
+   }
     elseif($do == 'Delete')
    {// Delete Item page
     echo '<h1 class="text-center">Delete Item</h1>';
@@ -592,7 +607,7 @@ if(isset($_SESSION['Username']))
             redirectHome($theMsg);
         }
      echo "</div>";
-}
+   }
     elseif($do == 'Approve')
     {// Approve items
         echo '<h1 class="text-center">Approve Members</h1>';
@@ -618,7 +633,7 @@ if(isset($_SESSION['Username']))
                 redirectHome($theMsg);
             }
          echo "</div>";
-       }
+    }
     include $tpl . "footer.php";
 }
 else
