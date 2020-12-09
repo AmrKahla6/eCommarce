@@ -1,17 +1,17 @@
 <?php
     session_start();
-    $pageTitle = "Category";
+    $pageTitle = "Tags";
     include 'init.php';
-    $catid = isset($_GET['catid']) && is_numeric($_GET['catid']) ? intval($_GET['catid']) : 0 ;
+    $catid = isset($_GET['name']) ? intval($_GET['name']) : 0 ;
     $items = getAllFrom('*' , 'items' , "WHERE Cat_ID = {$catid}"  , "AND Approve = 1" , "item_ID");
     ?>
 
 
 <div class="container">
-    <h1 class="text-center"> Show Category Items </h1>
+    <h1 class="text-center"> <?php echo $_GET['name'] ?> </h1>
     <div class="row">
         <?php
-    if(isset($_GET['catid']))
+    if(isset($_GET['name']))
     {
             if(!empty($items))
             {
@@ -32,7 +32,7 @@
             }
             else
             {
-                echo 'No Items';
+                echo 'No Tags';
             }
         }
         else

@@ -72,6 +72,24 @@
                                 <?php echo $item['username'] ?>
                             </a>
                         </li>
+
+                        <li>
+                            <i class="fa fa-user fa-fw"></i>
+                            <span>Tags</span>:
+
+                                <?php
+                                   $alltags = explode(',' , $item['Tag']);
+
+                                   foreach($alltags as $tag)
+                                   {
+                                       $tag = str_replace(' ' , '' , $tag);
+                                       $lowerTag = strtolower($tag);
+                                       echo "<a href='tag.php?name={$lowerTag}'>".  $tag  . '</a> | ';
+                                   }
+                                ?>
+
+                        </li>
+
                    </ul>
               </div>
          </div>

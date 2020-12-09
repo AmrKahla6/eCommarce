@@ -17,6 +17,7 @@ if(isset($_SESSION['user']))
         $country    = filter_var($_POST['country'] , FILTER_SANITIZE_STRING);
         $status     = filter_var($_POST['status']  , FILTER_SANITIZE_NUMBER_INT);
         $cat        = filter_var($_POST['category'], FILTER_SANITIZE_NUMBER_INT);
+        $tag        = filter_var($_POST['tag']  , FILTER_SANITIZE_STRING);
 
         if(strlen($name) < 4)
         {
@@ -53,8 +54,8 @@ if(isset($_SESSION['user']))
          {
                     // Store members in db
                     $stmt = $con->prepare("INSERT INTO
-                                                items(Name, Des, Price, Add_Date , Country_Made , Status , User_ID , Cat_ID)
-                                                VALUES(:zname , :zdes , :zprice , now() , :zcountry , :zstatus , :zuser , :zcat)");
+                                                items(Name, Des, Price, Add_Date , Country_Made , Status , User_ID , Cat_ID , Tag)
+                                                VALUES(:zname , :zdes , :zprice , now() , :zcountry , :zstatus , :zuser , :zcat , :ztag)");
                     $stmt->execute(array(
                         'zname'     => $name,
                         'zdes'      => $des,
@@ -63,6 +64,7 @@ if(isset($_SESSION['user']))
                         'zstatus'   => $status,
                         'zuser'     => $_SESSION['uid'],
                         'zcat'      => $cat,
+                        'ztag'      => $tag,
                     ));
                     if($stmt)
                     {
@@ -146,7 +148,7 @@ if(isset($_SESSION['user']))
                                         <select name="category" required>
                                             <option value="">Choose Category</option>
                                             <?php
-                                                    $categories = getAllFrom('*' , 'categories' , NULL , NULL , 'ID');
+                                                    $categories = getAllFrom('*' , 'categories' , "WHERE Parent != 0" , NULL , 'ID');
                                                     foreach($categories as $category)
                                                     {
                                                         echo "<option value='" . $category['ID'] . "'>" . $category['Name'] . "</option>";
@@ -156,6 +158,15 @@ if(isset($_SESSION['user']))
                                     </div>
                                 </div>
                                 <!-- End Category Faild -->
+
+                                <!-- Start Tags Faild -->
+                                <div class="form-group form-group-lg">
+                                    <label class="col-sm-3 control-label">Tags</label>
+                                    <div class="col-sm-10 col-md-9">
+                                        <input type="text" name="tag" class="form-control" placeholder="Separate Tags With Comma (,)">
+                                    </div>
+                                </div>
+                                <!-- End Tags Faild -->
 
                                 <!-- Start submit Faild -->
                                 <div class="form-group form-group-lg">

@@ -365,7 +365,7 @@ if(isset($_SESSION['Username']))
                 <!-- End Visibilty Faild -->
 
                    <!-- Start Allow_Comment Faild -->
-                   <div class="form-group form-group-lg">
+                    <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Allow Commenting</label>
                         <div class="col-sm-10 col-md-6">
                             <div>
@@ -379,7 +379,7 @@ if(isset($_SESSION['Username']))
                             </div>
                         </div>
                     </div>
-                <!-- End Allow_Comment Faild -->
+                  <!-- End Allow_Comment Faild -->
 
                    <!-- Start Allow_Ads Faild -->
                    <div class="form-group form-group-lg">
