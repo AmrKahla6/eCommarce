@@ -13,9 +13,14 @@
     <div class="upper-bar">
         <div class="container">
             <?php
+            $userid = $_SESSION['uid'];
                 if(isset($_SESSION['user']))
-                {?>
-                    <img class="img-thumbnail img-circle my-img" src="default.png">
+                {
+                    $users = getAllFrom("Avatar" , "users" , "WHERE UserID = $userid" , NULL , "UserID");
+                    ?>
+                    <?php foreach($users as $user) {?>
+                         <img class="img-thumbnail img-circle my-img" src="<?php echo 'uploads/avatars/' . $user["Avatar"]  ?>">
+                    <?php } ?>
                     <div class="btn-group my-info">
                         <span class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             <?php echo $sessionUser ?>

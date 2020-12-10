@@ -73,7 +73,7 @@
                             </a>
                         </li>
 
-                        <li>
+                        <li class="tags-item">
                             <i class="fa fa-user fa-fw"></i>
                             <span>Tags</span>:
 
@@ -84,7 +84,10 @@
                                    {
                                        $tag = str_replace(' ' , '' , $tag);
                                        $lowerTag = strtolower($tag);
-                                       echo "<a href='tag.php?name={$lowerTag}'>".  $tag  . '</a> | ';
+                                       if(!empty($tag))
+                                       {
+                                           echo "<a href='tag.php?name={$lowerTag}'>".  $tag  . '</a>';
+                                       }
                                    }
                                 ?>
 

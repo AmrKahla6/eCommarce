@@ -41,9 +41,10 @@ if(isset($_SESSION['Username']))
     <?php if($rows) {?>
        <div class="container">
         <div class="table-responsive">
-             <table class="main-table text-center table table-bordered">
+             <table class="main-table manage-members text-center table table-bordered">
                  <tr>
                      <td>#ID</td>
+                     <td>Avatar</td>
                      <td>Username</td>
                      <td>Fullname</td>
                      <td>Email</td>
@@ -58,6 +59,7 @@ if(isset($_SESSION['Username']))
                       {
                           echo '<tr>';
                               echo '<td>'.$row['UserID'] . '</td>';
+                              echo "<td> <img src='../uploads/avatars/".$row["Avatar"] ."' alt='' /></td>";
                               echo '<td>'.$row['Username']. '</td>';
                               echo '<td>'.$row['FullName']. '</td>';
                               echo '<td>'.$row['Email']. '</td>';
@@ -95,7 +97,7 @@ if(isset($_SESSION['Username']))
    { ?>
        <h1 class="text-center">Add New Members</h1>
        <div class="container">
-           <form class="form-horizontal" action="?do=Store" method="POST">
+           <form class="form-horizontal" action="?do=Store" method="POST" enctype="multipart/form-data">
                <!-- Start UserName Faild -->
                <div class="form-group form-group-lg">
                    <label class="col-sm-2 control-label">Username</label>
@@ -121,17 +123,26 @@ if(isset($_SESSION['Username']))
                        <div class="col-sm-10 col-md-6">
                            <input type="text" name="full" class="form-control" placeholder="ADD FULL NAME" autocomplete="off" required>
                        </div>
-                   </div>
-                   <!-- End FullName Faild -->
+               </div>
+               <!-- End FullName Faild -->
 
-                   <!-- Start Email Faild -->
-                   <div class="form-group form-group-lg">
-                       <label class="col-sm-2 control-label">Email</label>
-                       <div class="col-sm-10 col-md-6">
-                           <input type="email" name="email" class="form-control" placeholder="ADD EMAIL" autocomplete="off" required>
-                       </div>
-                   </div>
-               <!-- End Email Faild -->
+                <!-- Start Email Faild -->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input type="email" name="email" class="form-control" placeholder="ADD EMAIL" autocomplete="off" required>
+                    </div>
+                </div>
+            <!-- End Email Faild -->
+
+            <!-- Start Avatar Faild -->
+            <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">User Avatar</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input type="file" name="avatar" class="form-control" autocomplete="off" required>
+                    </div>
+            </div>
+            <!-- End Avatar Faild -->
 
                <!-- Start submit Faild -->
                    <div class="form-group form-group-lg">
@@ -152,6 +163,21 @@ if(isset($_SESSION['Username']))
         {
             echo '<h1 class="text-center">Store Members</h1>';
             echo "<div class='container'>";
+
+
+            $avatarName = $_FILES['avatar']['name'];
+            $avatarSize = $_FILES['avatar']["size"];
+            $avatarTemp = $_FILES['avatar']["tmp_name"];
+            $avatarType = $_FILES['avatar']["type"];
+
+            $avatarAllowedExtension = array("jpeg" , "jpg" , "png" , "gif");
+
+            //Get Avatar Extension
+
+            $avatar1          = explode("." , $avatarName);
+            $avatarEnd       = end($avatar1);
+            $avatarExtension = strtolower($avatarEnd);
+
             // Get varabiles from form
             $user     = $_POST['username'];
             $pass     = $_POST['password'];
@@ -182,6 +208,22 @@ if(isset($_SESSION['Username']))
                 $formerrors[] = 'Full name can not be <strong> null </strong>';
              }
 
+             if(empty($avatarName))
+             {
+                $formerrors[] =  "Avatar can not be <strong> null </strong>";
+             }
+
+             if($avatarSize > 4104304)
+             {
+                $formerrors[] =  "Avatar can not Larger Than <strong>4 MB</strong>";
+             }
+
+             if(! empty($avatarName) && ! in_array($avatarExtension , $avatarAllowedExtension))
+             {
+                $formerrors[] =  "This Extension Is Not Allow";
+             }
+
+
              // Loop into Errors and echo it
              foreach($formerrors as $error)
              {
@@ -190,6 +232,13 @@ if(isset($_SESSION['Username']))
              // Chech if no errors
              if(empty($formerrors))
              {
+
+
+                $avatar = rand(0 , 1999999999) . '_' . $avatarName;
+
+                move_uploaded_file($avatarTemp , "../uploads/avatars/" . $avatar);
+
+
                  //Check if user exsist in db
                   $check = checkItem("Username" , "users" , $user);
 
@@ -203,13 +252,14 @@ if(isset($_SESSION['Username']))
 
                         // Store members in db
                         $stmt = $con->prepare("INSERT INTO
-                                                    users(Username, Password, Email, FullName , RegStatus , Date )
-                                                    VALUES(:zuser , :zpass , :zemail , :zname , 1 , now())");
+                                                    users(Username, Password, Email, FullName , RegStatus , Date, Avatar )
+                                                    VALUES(:zuser , :zpass , :zemail , :zname , 1 , now(), :zavtar)");
                         $stmt->execute(array(
-                            'zuser'  => $user,
-                            'zpass'  => $hashpass,
-                            'zemail' => $email,
-                            'zname'  => $name,
+                            'zuser'   => $user,
+                            'zpass'   => $hashpass,
+                            'zemail'  => $email,
+                            'zname'   => $name,
+                            'zavtar'  => $avatar,
                         ));
 
                         // Ecoh success message

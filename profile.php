@@ -44,8 +44,9 @@ if(isset($_SESSION['user']))
 
                         <li>
                             <i class="fa fa-tags fa-fw"></i>
-                            <span> Fav Category </span>      : <?php echo $user['Date'] ?>
+                            <span> Avatar </span>      : <?php echo $user['Avatar'] ?>
                         </li>
+
                     </ul>
                     <a href="#" class="btn btn-default">Edit information</a>
                 </div>

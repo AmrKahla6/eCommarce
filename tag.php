@@ -2,20 +2,21 @@
     session_start();
     $pageTitle = "Tags";
     include 'init.php';
-    $catid = isset($_GET['name']) ? intval($_GET['name']) : 0 ;
-    $items = getAllFrom('*' , 'items' , "WHERE Cat_ID = {$catid}"  , "AND Approve = 1" , "item_ID");
+    $tag     = isset($_GET['name']) ? intval($_GET['name']) : 0 ;
     ?>
 
 
 <div class="container">
-    <h1 class="text-center"> <?php echo $_GET['name'] ?> </h1>
     <div class="row">
         <?php
     if(isset($_GET['name']))
     {
-            if(!empty($items))
+        $tag = $_GET['name'];
+        echo '<h1 class="text-center">' . $_GET['name'] . '</h1>';
+        $tagItems = getAllFrom('*' , 'items' , "WHERE Tag like '%$tag%'"  , "AND Approve = 1" , "item_ID");
+            if(!empty($tagItems))
             {
-                foreach($items as $item)
+                foreach($tagItems as $item)
                 {
                     echo '<div class="col-sm-6 col-md-3">' ;
                           echo '<div class="thumbnail item-box">';
